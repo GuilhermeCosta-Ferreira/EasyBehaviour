@@ -1,0 +1,6 @@
+/* debug.css */
+*,
+*::before,
+*::after {
+  outline: 0px solid lime !important;
+}

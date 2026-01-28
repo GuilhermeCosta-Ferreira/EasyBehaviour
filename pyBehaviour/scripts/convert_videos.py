@@ -33,7 +33,7 @@ def convert_folder():
         print(f"Folder does not exist: {INPUT_FOLDER_PATH.resolve()}")
         return
 
-    mov_files = sorted(INPUT_FOLDER_PATH.glob("*.MOV"))
+    mov_files = sorted(list(INPUT_FOLDER_PATH.glob("*.MOV")) + list(INPUT_FOLDER_PATH.glob("*.mov")))
     if not mov_files:
         print(f"No .MOV files found in: {INPUT_FOLDER_PATH.resolve()}")
         return

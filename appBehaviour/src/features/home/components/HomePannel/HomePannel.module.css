@@ -1,0 +1,23 @@
+.pannel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 1em;
+}
+
+
+.pannelbutton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pannelbutton > button {
+  width: 100%;
+  height: 100%;
+
+  margin-top: 5%;
+  margin-bottom: 5%;
+
+  font-size: 1em;
+}

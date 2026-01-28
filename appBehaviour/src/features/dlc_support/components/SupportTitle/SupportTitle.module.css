@@ -1,0 +1,6 @@
+.title{
+    border: 1px solid var(--color-primary);
+    border-radius: 0.5em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}

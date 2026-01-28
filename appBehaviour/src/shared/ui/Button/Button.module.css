@@ -1,0 +1,40 @@
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.6rem 0.95rem;
+  border-radius: 0.2rem;
+  border: 1px solid;
+
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+
+  transition: transform 120ms ease, filter 120ms ease, background-color 120ms ease, opacity 120ms ease;
+}
+
+.button:hover {
+  background: var(--color-primary);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  outline-offset: 2px;
+}

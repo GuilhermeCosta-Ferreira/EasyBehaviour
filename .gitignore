@@ -210,3 +210,9 @@ verbose.txt
 data/
 .DS_Store/
 *.DS_Store
+
+# For dataBehaviour
+dataBehaviour/db/*.sqlite
+dataBehaviour/db/*.sqlite-journal
+dataBehaviour/db/*.sqlite-wal
+dataBehaviour/db/*.sqlite-shm

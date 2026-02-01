@@ -8,6 +8,7 @@ function HomePannel() {
   return (
     <div className={`container ${styles.pannel}`}>
       <Button className={styles.pannelbutton} onClick={() => navigate("dlc_support")}>DLC Support</Button>
+      <Button className={styles.pannelbutton} onClick={() => navigate("db_access")}>Check DB</Button>
       <Button className={styles.pannelbutton}>Analyse Data</Button>
     </div>
   );

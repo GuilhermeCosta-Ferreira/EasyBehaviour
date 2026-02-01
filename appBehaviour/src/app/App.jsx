@@ -1,6 +1,6 @@
 import MainPage from "../features/home/pages/HomePage";
 import SupportPageDLC from "../features/dlc_support/pages/SupportPageDLC";
-import DBPage from "../features/db_acess/pages/DBPage";
+import DBPage from "../features/db_access/pages/DBPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";

@@ -37,7 +37,7 @@ function TablePicker() {
   if (error) return <p>Error: {error}</p>;
   if (loading) return <p>Loading…</p>;
 
-  const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Raw Table";
+  const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Table";
 
   let translatedRows = rows
 
@@ -88,13 +88,6 @@ function TablePicker() {
       </div>
 
       {loading && <p>Loading…</p>}
-
-      {!loading && safeSelectedTable && (
-        <TableViewer
-          className="scontainer"
-          columns={columns}
-          rows={rows}
-        ></TableViewer>)}
 
       {!loading && safeSelectedTable && (
         <TableViewer

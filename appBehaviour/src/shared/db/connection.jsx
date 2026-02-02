@@ -5,6 +5,7 @@ import {
   mkdir,
   readFile,
   writeFile,
+  remove,
 } from '@tauri-apps/plugin-fs';
 
 const IMPORT_DIR = 'imported_dbs'; // folder created to where the db will live
@@ -39,7 +40,7 @@ export async function importDbFromUserFile() {
   await writeFile(WORKING_DB, bytes, { baseDir: BaseDirectory.AppData });
 
   // 5. reset any open connection
-  dbInstance = null;
+  dbInstance = await deselectWorkingDb();
 
   return WORKING_DB;
 }
@@ -82,4 +83,45 @@ export async function exportWorkingDb() {
   await writeFile(dest, bytes);
 
   return dest;
+}
+
+
+
+/**
+ * De-selects the working DB:
+ * - closes the current connection (if open)
+ * - clears the cached instance
+ * - optionally deletes the working.sqlite file
+ *
+ * @param {{ deleteWorkingFile?: boolean }} opts
+ * @returns {Promise<void>}
+ */
+export async function deselectWorkingDb(opts = {}) {
+  const { deleteWorkingFile = false } = opts;
+
+  // 1) Close active connection if it exists
+  if (dbInstance) {
+    try {
+      // Recommended: make sure pending WAL/pages are flushed first (optional).
+      // If you don't use WAL, this is harmless.
+      try {
+        await dbInstance.execute('PRAGMA wal_checkpoint(FULL);');
+      } catch {
+        // ignore (some builds/modes may not support WAL checkpointing)
+      }
+
+      await dbInstance.close(); // <- the important part
+    } finally {
+      dbInstance = null;
+    }
+  }
+
+  // 2) Optionally remove the working DB file from AppData
+  if (deleteWorkingFile) {
+    try {
+      await remove(WORKING_DB, { baseDir: BaseDirectory.AppData });
+    } catch {
+      // ignore if it doesn't exist
+    }
+  }
 }

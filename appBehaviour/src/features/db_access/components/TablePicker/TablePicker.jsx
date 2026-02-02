@@ -120,9 +120,8 @@ function TablePicker() {
 
   return (
     <div>
-      <div className={style.input}>
+      <div className={`scontainer ${style.input}`}>
         <AppDropdown
-          className="scontainer"
           title={title}
           items={names}
           onSelect={setSelectedTable}

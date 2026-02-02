@@ -1,8 +1,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { getWorkingDb } from "../../../../shared/db/connection";
+
 import AppDropdown from "../../../../shared/ui/Dropdown/Dropdown";
 import TableViewer from "../TableViewer/TableViewer";
+import Button from "../../../../shared/ui/Button/Button";
+
+import style from "./TablePicker.module.css"
+
 
 function TablePicker() {
   const [error, setError] = useState(null);
@@ -101,17 +106,29 @@ function TablePicker() {
 
 
 
+  const handleDeselect = () => {
+      setSelectedTable(null);
+      setRows([]);
+      setColumns([]);
+      setLoading(false);
+    };
+
+
+
   if (error) return <p>Error: {error}</p>;
-  const title = safeSelectedTable ?? "Select a Table";
+  const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Raw Table";
 
   return (
     <div>
-      <AppDropdown
-        className="scontainer"
-        title={title}
-        items={names}
-        onSelect={setSelectedTable}
-      />
+      <div className={style.input}>
+        <AppDropdown
+          className="scontainer"
+          title={title}
+          items={names}
+          onSelect={setSelectedTable}
+        />
+        <Button onClick={handleDeselect}>X</Button>
+      </div>
 
       {loading && <p>Loading…</p>}
 

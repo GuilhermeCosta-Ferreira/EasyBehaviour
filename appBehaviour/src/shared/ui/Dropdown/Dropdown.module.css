@@ -3,7 +3,7 @@
     position: relative;
 }
 
-.button {
+.toggle {
     display: block;
     align-items: center;
     justify-content: center;
@@ -25,20 +25,20 @@
     transition: transform 120ms ease, filter 120ms ease, background-color 120ms ease, opacity 120ms ease;
 }
 
-.button:hover {
+.toggle:hover {
     background: var(--color-primary);
 }
 
-.button:active {
+.toggle:active {
     transform: translateY(1px);
 }
 
-.button:disabled {
+.toggle:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.button:focus-visible {
+.toggle:focus-visible {
     outline: 3px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
     outline-offset: 2px;
 }

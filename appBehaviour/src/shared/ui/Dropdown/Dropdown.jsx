@@ -9,13 +9,16 @@ export default function AppDropdown({
 }) {
   return (
     <Dropdown className={`${className} ${style.dropdown}`}>
-      <Dropdown.Toggle className={style.button}>
+      <Dropdown.Toggle className={style.toggle}>
         {title}
       </Dropdown.Toggle>
 
       <Dropdown.Menu className={style.menu}>
         {items.length === 0 ? (
-          <Dropdown.Item as="span" disabled> No items </Dropdown.Item>
+          <Dropdown.Item
+            className={style.item}
+            as="span"
+            disabled> No items </Dropdown.Item>
         ) : (
           items.map((item) => (
             <Dropdown.Item

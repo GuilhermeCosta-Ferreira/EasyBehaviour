@@ -13,7 +13,7 @@ function DBPage() {
       <SectionTitle>DB Access</SectionTitle>
       <IOPannel></IOPannel>
       <TablePicker></TablePicker>
-      <Button className="scontainer" onClick={() => navigate("/")}>Go Back</Button>
+      <Button className="container" onClick={() => navigate("/")}>Go Back</Button>
 
 
     </div>

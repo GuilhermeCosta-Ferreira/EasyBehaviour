@@ -10,6 +10,11 @@
     "opener:default",
     "sql:default",
     "dialog:default",
-    "fs:default"
+    "fs:default",
+    "fs:allow-mkdir",
+    "fs:allow-read-file",
+    "fs:allow-write-file",
+    "fs:allow-appdata-write-recursive",
+    "fs:allow-appdata-read-recursive"
   ]
 }

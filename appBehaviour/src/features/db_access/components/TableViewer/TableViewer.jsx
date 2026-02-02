@@ -1,10 +1,12 @@
-function TableViewer({ columns, rows, className='' }) {
+import style from './TableViewer.module.css'
+
+function TableViewer({ columns, rows, className = '' }) {
   return (
-    <div style={{ marginTop: 12 }} className={`${className}`}>
+    <div style={{ marginTop: 12 }} className={`${className} ${style.tableWrap}`}>
       {rows.length === 0 ? (
         <p>(No rows)</p>
       ) : (
-        <table>
+        <table className={style.dataTable}>
           <thead>
             <tr>
               {columns.map((c) => (

@@ -1,6 +1,5 @@
 
-import { useEffect, useMemo, useState } from "react";
-import { getWorkingDb } from "../../../../shared/db/connection";
+import { useState } from "react";
 
 import AppDropdown from "../../../../shared/ui/Dropdown/Dropdown";
 import TableViewer from "../TableViewer/TableViewer";
@@ -9,7 +8,7 @@ import Button from "../../../../shared/ui/Button/Button";
 import { useSqliteTableNames } from "../../../../shared/hooks/useDBNameResult";
 import { useSafeTableName } from "../../../../shared/hooks/useSafeTableName";
 import { useSqliteTableData } from "../../../../shared/hooks/useDBTableData";
-import { useBehaviorDictionary } from "../../../../shared/hooks/useBehaviourDictionary";
+import { useDictionary } from "../../../../shared/hooks/useDictionary";
 
 import style from "./TablePicker.module.css"
 
@@ -17,7 +16,6 @@ import style from "./TablePicker.module.css"
 function TablePicker() {
   const [selectedTable, setSelectedTable] = useState(null);
 
-  const { dict: behaviourDict, loading, error, reload } = useBehaviorDictionary();
   const { names, loading: loadingNames, error: namesError } = useSqliteTableNames();
   const safeSelectedTable = useSafeTableName(selectedTable, names);
 
@@ -29,7 +27,8 @@ function TablePicker() {
       clear: clearTable,
     } = useSqliteTableData(safeSelectedTable);
 
-
+  console.log(names)
+  const { behaviourDict, metricDict, timepointDict, miceDict, loading, error } = useDictionary();
   const handleDeselect = () => {
       setSelectedTable(null);
       clearTable();
@@ -41,6 +40,7 @@ function TablePicker() {
   const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Raw Table";
 
   let translatedRows = rows
+
   if (safeSelectedTable !== "behaviors") {
     translatedRows = rows.map(r => ({
       ...r,
@@ -49,7 +49,32 @@ function TablePicker() {
     }));
   }
 
-  console.log(translatedRows);
+  if (safeSelectedTable !== "metrics") {
+    translatedRows = translatedRows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      metric_id: metricDict[r.metric_id] ?? r.metric_id // or "(unknown)"
+    }));
+  }
+
+  if (safeSelectedTable !== "timepoints") {
+    translatedRows = translatedRows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      timepoint_id: timepointDict[r.timepoint_id] ?? r.timepoint_id // or "(unknown)"
+    }));
+  }
+
+  if (safeSelectedTable !== "mice") {
+    translatedRows = translatedRows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      mouse_id: miceDict[r.mouse_id] ?? r.mouse_id // or "(unknown)"
+    }));
+  }
+
+  console.log(miceDict)
+  //console.log(translatedRows);
 
   return (
     <div>

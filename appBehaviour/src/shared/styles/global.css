@@ -12,3 +12,8 @@ body {
 .container{
     margin: 5%;
 }
+
+.scontainer{
+    margin: 5%;
+    margin-top: 0%;
+}

@@ -1,122 +1,80 @@
 
-import { useEffect, useMemo, useState } from "react";
-import { getWorkingDb } from "../../../../shared/db/connection";
+import { useState } from "react";
 
 import AppDropdown from "../../../../shared/ui/Dropdown/Dropdown";
 import TableViewer from "../TableViewer/TableViewer";
 import Button from "../../../../shared/ui/Button/Button";
 
+import { useSqliteTableNames } from "../../../../shared/hooks/useDBNameResult";
+import { useSafeTableName } from "../../../../shared/hooks/useSafeTableName";
+import { useSqliteTableData } from "../../../../shared/hooks/useDBTableData";
+import { useDictionary } from "../../../../shared/hooks/useDictionary";
+
 import style from "./TablePicker.module.css"
 
 
 function TablePicker() {
-  const [error, setError] = useState(null);
-
-  const [names, setNames] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
 
-  const [rows, setRows] = useState([]);
-  const [columns, setColumns] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { names, loading: loadingNames, error: namesError } = useSqliteTableNames();
+  const safeSelectedTable = useSafeTableName(selectedTable, names);
 
-  // 1. Load list of tables once
-  useEffect(() => {
-    let cancelled = false;
+  const {
+      columns,
+      rows,
+      loading: loadingTable,
+      error: tableError,
+      clear: clearTable,
+    } = useSqliteTableData(safeSelectedTable);
 
-    (async () => {
-      try {
-        setError(null);
-        const db = await getWorkingDb();
-
-        const tables = await db.select(`
-          SELECT name
-          FROM sqlite_master
-          WHERE type = 'table'
-            AND name NOT LIKE 'sqlite_%'
-          ORDER BY name
-        `);
-
-        if (cancelled) return;
-
-        const tableNames = tables.map((r) => r.name);
-        setNames(tableNames);
-
-        // optional: auto-select first table
-        // setSelectedTable(tableNames[0] ?? null);
-      } catch (e) {
-        if (!cancelled) setError(String(e));
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-
-
-  // 2. Validate selected table name against the known names list
-  const safeSelectedTable = useMemo(() => {
-    if (!selectedTable) return null;
-    return names.includes(selectedTable) ? selectedTable : null;
-  }, [selectedTable, names]);
-
-
-
-  // 3. Load selected table whenever it changes
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      if (!safeSelectedTable) {
-        setRows([]);
-        setColumns([]);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        setError(null);
-
-        const db = await getWorkingDb();
-
-        // Get column names
-        const info = await db.select(`PRAGMA table_info("${safeSelectedTable}")`);
-        if (cancelled) return;
-
-        const cols = info.map((c) => c.name);
-        setColumns(cols);
-
-        // Load some rows (limit for performance)
-        const data = await db.select(`SELECT * FROM "${safeSelectedTable}" LIMIT 200`);
-        if (cancelled) return;
-
-        setRows(data);
-      } catch (e) {
-        if (!cancelled) setError(String(e));
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [safeSelectedTable]);
-
-
-
+  console.log(names)
+  const { behaviourDict, metricDict, timepointDict, miceDict, loading, error } = useDictionary();
   const handleDeselect = () => {
       setSelectedTable(null);
-      setRows([]);
-      setColumns([]);
-      setLoading(false);
+      clearTable();
     };
 
-
-
   if (error) return <p>Error: {error}</p>;
-  const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Raw Table";
+  if (loading) return <p>Loading…</p>;
+
+  const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Table";
+
+  let translatedRows = rows
+
+  if (safeSelectedTable !== "behaviors") {
+    translatedRows = rows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      behavior_id: behaviourDict[r.behavior_id] ?? r.behavior_id // or "(unknown)"
+    }));
+  }
+
+  if (safeSelectedTable !== "metrics") {
+    translatedRows = translatedRows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      metric_id: metricDict[r.metric_id] ?? r.metric_id // or "(unknown)"
+    }));
+  }
+
+  if (safeSelectedTable !== "timepoints") {
+    translatedRows = translatedRows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      timepoint_id: timepointDict[r.timepoint_id] ?? r.timepoint_id // or "(unknown)"
+    }));
+  }
+
+  if (safeSelectedTable !== "mice") {
+    translatedRows = translatedRows.map(r => ({
+      ...r,
+      // overwrite behavior_id instead of creating a new column
+      mouse_id: miceDict[r.mouse_id] ?? r.mouse_id // or "(unknown)"
+    }));
+  }
+
+  console.log(miceDict)
+  //console.log(translatedRows);
 
   return (
     <div>
@@ -135,9 +93,9 @@ function TablePicker() {
         <TableViewer
           className="scontainer"
           columns={columns}
-          rows={rows}
+          rows={translatedRows}
         ></TableViewer>)}
-      </div>
+    </div>
   );
 }
 

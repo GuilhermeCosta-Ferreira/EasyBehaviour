@@ -1,6 +1,7 @@
 import style from './TableViewer.module.css'
 
 function TableViewer({ columns, rows, className = '' }) {
+
   return (
     <div style={{ marginTop: 12 }} className={`${className} ${style.tableWrap}`}>
       {rows.length === 0 ? (

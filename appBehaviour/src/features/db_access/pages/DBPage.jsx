@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 import Button from "../../../shared/ui/Button/Button";
 import SectionTitle from "../../../shared/ui/SectionTitle/SectionTitle";

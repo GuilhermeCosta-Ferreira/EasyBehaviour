@@ -9,13 +9,17 @@
         "#F1DF02"
     ],
     "backgroundColor": "rgba(0, 0, 0, 0)",
-    "textStyle": {},
+    "textStyle": {
+      "fontFamily": "Diagramm"
+    },
     "title": {
         "textStyle": {
-            "color": "#ffffff"
+            "color": "#ffffff",
+            "fontFamily": "Diagramm"
         },
         "subtextStyle": {
-            "color": "#dedede"
+            "color": "#dedede",
+            "fontFamily": "Diagramm"
         }
     },
     "line": {

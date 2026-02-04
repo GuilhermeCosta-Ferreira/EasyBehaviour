@@ -1,7 +1,7 @@
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
 import nr_theme from "../../../../assets/themes/nr_style.json";
-
+import style from './TestPlot.module.css'
 const THEME_NAME = "nr_style";
 
 // Guard to avoid re-registering during dev hot reload
@@ -49,11 +49,14 @@ export default function TestPlot() {
   };
 
   return (
-    <ReactECharts
-    echarts={echarts}
-    theme={THEME_NAME}
-    option={option}
-    style={{ width: 600, height: 400 }}
-    />
+    <div className={style.wrap}>
+      <ReactECharts
+      className={style.chart}
+      echarts={echarts}
+      theme={THEME_NAME}
+        option={option}
+        style={{ width: "80%", height: "80%" }}
+      />
+    </div>
   );
 }

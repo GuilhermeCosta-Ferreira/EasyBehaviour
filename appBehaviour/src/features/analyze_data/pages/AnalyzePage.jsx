@@ -10,7 +10,7 @@ function AnalysePage() {
   return (
     <div>
       <SectionTitle>Analyze Data</SectionTitle>
-      <SelectionMenu></SelectionMenu>
+      <SelectionMenu/>
       <TestPlot></TestPlot>
       <Button className="container" onClick={() => navigate("/")}>Go Back</Button>
     </div>

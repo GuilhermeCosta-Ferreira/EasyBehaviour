@@ -7,7 +7,7 @@ import Button from "../../../../shared/ui/Button/Button";
 
 import { useSqliteTableNames } from "../../../../shared/hooks/useDBNameResult";
 import { useSafeTableName } from "../../../../shared/hooks/useSafeTableName";
-import { useSqliteTableData } from "../../../../shared/hooks/useDBTableData";
+import { useDBTableData } from "../../../../shared/hooks/useDBTableData";
 import { useDictionary } from "../../../../shared/hooks/useDictionary";
 
 import style from "./TablePicker.module.css"
@@ -25,9 +25,8 @@ function TablePicker() {
       loading: loadingTable,
       error: tableError,
       clear: clearTable,
-    } = useSqliteTableData(safeSelectedTable);
+    } = useDBTableData(safeSelectedTable);
 
-  console.log(names)
   const { behaviourDict, metricDict, timepointDict, miceDict, loading, error } = useDictionary();
   const handleDeselect = () => {
       setSelectedTable(null);

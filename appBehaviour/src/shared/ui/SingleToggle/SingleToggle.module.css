@@ -1,0 +1,18 @@
+.group{
+    display: inline-flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+}
+
+.group:hover{
+    background-color: var(--color-primary-hover);
+}
+
+.toggle_text{
+    font-size: 0.8rem;
+}
+
+.item{
+    margin-left: 0.7rem;
+}

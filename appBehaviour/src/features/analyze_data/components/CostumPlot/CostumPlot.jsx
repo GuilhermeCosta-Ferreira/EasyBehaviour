@@ -43,10 +43,11 @@ export default function CostumPlot({
   if (error) return <div>Error</div>;
 
   // Get x axis and y axis data
-  const xdata = (rows ?? []).map(row => row?.["metric_id"]);
-  const ydata = (rows ?? []).map(row => row?.["value"]);
+  const xdata = (filteredRows ?? []).map(row => row?.["metric_id"]);
+  const ydata = (filteredRows ?? []).map(row => row?.["value"]);
+
+  console.log(rows)
   console.log(filteredRows)
-  console.log(ydata)
 
 
   // The Plot Settings

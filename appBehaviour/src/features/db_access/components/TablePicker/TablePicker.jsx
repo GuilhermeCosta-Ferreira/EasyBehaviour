@@ -20,68 +20,51 @@ function TablePicker() {
   const safeSelectedTable = useSafeTableName(selectedTable, names);
 
   const {
-      columns,
-      rows,
-      loading: loadingTable,
-      error: tableError,
-      clear: clearTable,
-    } = useDBTableData(safeSelectedTable);
+    columns,
+    rows,
+    loading: loadingTable,
+    error: tableError,
+    clear: clearTable,
+  } = useDBTableData(safeSelectedTable);
 
   const { behaviourDict, metricDict, timepointDict, miceDict, loading, error } = useDictionary();
   const handleDeselect = () => {
-      setSelectedTable(null);
-      clearTable();
-    };
+    setSelectedTable(null);
+    clearTable();
+  };
 
   if (error) return <p>Error: {error}</p>;
   if (loading) return <p>Loading…</p>;
 
   const title = safeSelectedTable ? `Inspected Table: ${safeSelectedTable}` : "Inspect a Table";
 
-  let translatedRows = rows
+  const rules = [
+    { table: "behaviors",  key: "behavior_id",  dict: behaviourDict },
+    { table: "metrics",    key: "metric_id",    dict: metricDict },
+    { table: "timepoints", key: "timepoint_id", dict: timepointDict },
+    { table: "mice",       key: "mouse_id",     dict: miceDict },
+  ];
 
-  if (safeSelectedTable !== "behaviors") {
-    translatedRows = rows.map(r => ({
-      ...r,
-      // overwrite behavior_id instead of creating a new column
-      behavior_id: behaviourDict[r.behavior_id] ?? r.behavior_id // or "(unknown)"
-    }));
-  }
+  const translatedRows = rows.map(r => {
+    const out = { ...r };
 
-  if (safeSelectedTable !== "metrics") {
-    translatedRows = translatedRows.map(r => ({
-      ...r,
-      // overwrite behavior_id instead of creating a new column
-      metric_id: metricDict[r.metric_id] ?? r.metric_id // or "(unknown)"
-    }));
-  }
+    for (const { table, key, dict } of rules) {
+      if (safeSelectedTable !== table) {
+        out[key] = dict?.[out[key]] ?? out[key];
+      }
+    }
 
-  if (safeSelectedTable !== "timepoints") {
-    translatedRows = translatedRows.map(r => ({
-      ...r,
-      // overwrite behavior_id instead of creating a new column
-      timepoint_id: timepointDict[r.timepoint_id] ?? r.timepoint_id // or "(unknown)"
-    }));
-  }
+    return out;
+  });
 
-  if (safeSelectedTable !== "mice") {
-    translatedRows = translatedRows.map(r => ({
-      ...r,
-      // overwrite behavior_id instead of creating a new column
-      mouse_id: miceDict[r.mouse_id] ?? r.mouse_id // or "(unknown)"
-    }));
-  }
-
-  console.log(miceDict)
-  //console.log(translatedRows);
 
   return (
     <div>
       <div className={`scontainer ${style.input}`}>
         <AppDropdown
-          title={title}
-          items={names}
-          onSelect={setSelectedTable}
+        title={title}
+        items={names}
+        onSelect={setSelectedTable}
         />
         <Button onClick={handleDeselect}>X</Button>
       </div>

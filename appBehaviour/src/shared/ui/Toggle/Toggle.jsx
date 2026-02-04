@@ -9,8 +9,8 @@ function Toggle({
   className = ""
 }) {
   return (
-    <Dropdown className={`${className} ${dropdown_style.dropdown} ${style.test}`}>
-      <Dropdown.Toggle className={dropdown_style.toggle}>{title}</Dropdown.Toggle>
+    <Dropdown className={`${className} ${dropdown_style.dropdown} ${style.main}`}>
+      <Dropdown.Toggle className={`${style.container} ${dropdown_style.toggle}`}>{title}</Dropdown.Toggle>
 
       <Dropdown.Menu className={dropdown_style.menu}>
 

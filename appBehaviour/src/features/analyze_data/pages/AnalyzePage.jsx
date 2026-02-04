@@ -32,7 +32,7 @@ function AnalysePage() {
       <div>
         <SectionTitle>Analyze Data</SectionTitle>
         <SelectionMenu filterCall={handleChange} />
-        <CostumPlot></CostumPlot>
+        <CostumPlot filters={selection}></CostumPlot>
         <Button className="container" onClick={() => navigate("/")}>Go Back</Button>
       </div>
     )

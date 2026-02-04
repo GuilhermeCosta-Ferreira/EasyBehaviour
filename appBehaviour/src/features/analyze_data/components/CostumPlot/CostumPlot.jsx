@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
 
@@ -20,6 +22,31 @@ export default function CostumPlot({
   const { columns, rows, loading, error, clear } = useDBTableData("observations")
 
   // 2. Filter it by the filters
+  const filteredRows = useMemo(() => {
+      if (!rows?.length) return [];
+
+      const active = Object.entries(filters).filter(
+        ([, allowed]) => Array.isArray(allowed) && allowed.length > 0
+      );
+
+      if (active.length === 0) return rows;
+
+      // (Optional) speedup for big lists: convert allowed arrays to Sets
+      const activeSets = active.map(([key, allowed]) => [key, new Set(allowed)]);
+
+      return rows.filter((row) =>
+        activeSets.every(([key, allowedSet]) => allowedSet.has(row[key]))
+      );
+    }, [rows, filters]);
+
+    if (loading) return <div>Loading…</div>;
+  if (error) return <div>Error</div>;
+
+  // Get x axis and y axis data
+  const xdata = (rows ?? []).map(row => row?.["metric_id"]);
+  const ydata = (rows ?? []).map(row => row?.["value"]);
+  console.log(filteredRows)
+  console.log(ydata)
 
 
   // The Plot Settings
@@ -29,14 +56,14 @@ export default function CostumPlot({
     legend: { data: ["sales"] },
     xAxis: {
       type: "category",
-      data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
+      data: xdata,
     },
     yAxis: { type: "value" },
     series: [
       {
         name: "sales",
         type: "bar",
-        data: [5, 20, 36, 10, 10, 20],
+        data: ydata,
       },
     ]
   };

@@ -9,6 +9,7 @@ import style from "./Toggle.module.css"
 function Toggle({
   title = "Select One or More",
   options = [],
+  originalValues,
   className = "",
   filterCall
 }) {
@@ -28,6 +29,8 @@ function Toggle({
       filterCall?.(title, opt);
     }, [title, opt, filterCall]);
 
+  //console.log(title, originalValues)
+
 
   return (
     <Dropdown className={`${className} ${dropdown_style.dropdown} ${style.main}`}>
@@ -43,7 +46,7 @@ function Toggle({
         ) : (
           options.map((item, index) => (
             <div
-              onClick={() => toggleOption(item)}
+              onClick={() => toggleOption(originalValues[index])}
               className={style.item_container}
               key={`${item}-${index}`}>
               <SingleToggle>{item}</SingleToggle>
@@ -56,3 +59,4 @@ function Toggle({
 }
 
 export default Toggle
+//<p>{console.log(title, item, originalValues[index])}</p>

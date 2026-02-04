@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import Button from "../../../shared/ui/Button/Button";
 import SectionTitle from "../../../shared/ui/SectionTitle/SectionTitle";
 
-import TestPlot from "../components/TestPlot/TestPlot";
 import SelectionMenu from "../components/SelectionMenu/SelectionMenu";
+import CostumPlot from "../components/CostumPlot/CostumPlot";
 
 function AnalysePage() {
   // 1. Initializes the navigate process
@@ -26,13 +26,13 @@ function AnalysePage() {
     }, [selection]);
 
 
-  console.log(selection)
+  //console.log(selection)
 
     return (
       <div>
         <SectionTitle>Analyze Data</SectionTitle>
         <SelectionMenu filterCall={handleChange} />
-        <TestPlot></TestPlot>
+        <CostumPlot></CostumPlot>
         <Button className="container" onClick={() => navigate("/")}>Go Back</Button>
       </div>
     )

@@ -24,22 +24,25 @@ function SelectionMenu({filterCall}) {
 
     return unique
   }
-  const unique_array = columns.map(m => [m, getColumnUnique(m, translatedRows)])
+  const unique_translated_array = columns.map(m => [m, getColumnUnique(m, translatedRows)])
+  const unique_array = columns.map(m => [m, getColumnUnique(m, rows)])
 
   // 4. Filter for non filterable columns: value and notes
   const NON_FILTERABLE = new Set(["value", "notes"]);
+  const filtered_translated_columns = unique_translated_array.filter(([colName]) => !NON_FILTERABLE.has(colName));
   const filtered_columns = unique_array.filter(([colName]) => !NON_FILTERABLE.has(colName));
 
   return (
     <div className={`scontainer ${style.menuContainer}`}>
       <div className={`${style.menu}`}>
-        {filtered_columns.map(([col, values]) => (
-          <Toggle
-            title={col}
-            options={values}
-            filterCall={filterCall}
-            key={`toggle-${col}`}
-          />
+        {filtered_translated_columns.map(([col, values], index) => (
+            <Toggle
+              title={col}
+              options={values}
+              originalValues={filtered_columns?.[index]?.[1] ?? []}
+              filterCall={filterCall}
+              key={`toggle-${col}`}
+            />
         ))}
       </div>
     </div>

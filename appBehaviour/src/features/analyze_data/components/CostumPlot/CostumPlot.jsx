@@ -54,7 +54,7 @@ export default function CostumPlot({
   const option = {
     title: { text: "ECharts Getting Started Example" },
     tooltip: {},
-    legend: { data: ["sales"] },
+    legend: { data: ["metric_id"] },
     xAxis: {
       type: "category",
       data: xdata,
@@ -62,7 +62,7 @@ export default function CostumPlot({
     yAxis: { type: "value" },
     series: [
       {
-        name: "sales",
+        name: "metric_id",
         type: "bar",
         data: ydata,
       },

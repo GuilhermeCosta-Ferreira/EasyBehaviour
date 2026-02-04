@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { getWorkingDb } from "../db/connection"; // adjust this path
 
-export function useSqliteTableData(safeTableName) {
+export function useDBTableData(safeTableName) {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);

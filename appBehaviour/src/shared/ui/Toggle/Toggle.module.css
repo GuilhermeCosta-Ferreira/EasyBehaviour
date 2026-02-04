@@ -1,0 +1,7 @@
+.main {
+  z-index: 1;
+}
+
+.container{
+    min-width: 150px; /* pick a value */
+}

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app/App";
 
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "./shared/styles/fonts.css";
 import "./shared/styles/colors.css";
 import "./shared/styles/global.css";

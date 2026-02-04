@@ -8,7 +8,7 @@ import style from "./SelectionMenu.module.css"
 
 
 
-function SelectionMenu() {
+function SelectionMenu({filterCall}) {
   // 1. Extacts the data from the observations columns
   const { columns, rows, loading, error, clear } = useDBTableData("observations")
   const { behaviourDict, metricDict, timepointDict, miceDict, loadingD, errorD, reload } = useDictionary();
@@ -17,7 +17,7 @@ function SelectionMenu() {
   const rules = makeRowTranslationRules({ behaviourDict, metricDict, timepointDict, miceDict });
   const translatedRows = translateRows({ rows, selectedTable: "observations", rules });
 
-  // 2. Gets all the unique values per column
+  // 3. Gets all the unique values per column
   function getColumnUnique(columnName, rows) {
     const values = rows.map(r => r[columnName]);
     const unique = [...new Set(values)];
@@ -26,7 +26,7 @@ function SelectionMenu() {
   }
   const unique_array = columns.map(m => [m, getColumnUnique(m, translatedRows)])
 
-  // 3. Filter for non filterable columns: value and notes
+  // 4. Filter for non filterable columns: value and notes
   const NON_FILTERABLE = new Set(["value", "notes"]);
   const filtered_columns = unique_array.filter(([colName]) => !NON_FILTERABLE.has(colName));
 
@@ -37,6 +37,8 @@ function SelectionMenu() {
           <Toggle
             title={col}
             options={values}
+            filterCall={filterCall}
+            key={`toggle-${col}`}
           />
         ))}
       </div>

@@ -2,7 +2,7 @@ BEGIN;
 
 INSERT INTO groups (group_id, name, study_type, was_treated, was_injured, nr_of_cages, nr_of_mice, notes)
 VALUES
-    (44, 'Injured Vsx Ablated Untreated', 'injury', 0, 1, 2, 8, NULL),
+    (44, 'Injured Vsx Ablated Untreated', 'injury & ablation', 0, 1, 2, 8, NULL),
     (46, 'Injured Untreated (Control)', 'injury', 0, 1, 3, 15, '4 died, but baselines where recorded, so accounted here'),
     (65, 'Injured Propriospinal Treated', 'injury', 1, 1, 3, 13, NULL),
     (71, 'Injured MdD & MdV Treated', 'injury', 1, 1, 2, 10, NULL),

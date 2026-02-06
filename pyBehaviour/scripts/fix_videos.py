@@ -16,8 +16,8 @@ from pybehaviour.moseq_support import(
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-INPUT_FOLDER_PATH = Path("../data/converted")
-OUTPUT_FOLDER_PATH = Path("../data/fixed")
+INPUT_FOLDER_PATH = Path("../data/convert_videos/converted")
+OUTPUT_FOLDER_PATH = Path("../data/convert_videos/fixed")
 
 
 

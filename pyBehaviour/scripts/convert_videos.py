@@ -11,11 +11,11 @@ from pybehaviour.dlc_support import ffprobe_codecs, convert_mov
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-INPUT_REFERENCE_VIDEO_PATH: Path = Path("../data/converter_input_reference.MOV") # target video to convert to
-OUTPUT_REFERENCE_VIDEO_PATH: Path = Path("../data/converter_reference_video.mp4") # target video to convert to
+INPUT_REFERENCE_VIDEO_PATH: Path = Path("../data/convert_videos/converter_input_reference.MOV") # target video to convert to
+OUTPUT_REFERENCE_VIDEO_PATH: Path = Path("../data/convert_videos/converter_reference_video.mp4") # target video to convert to
 
-INPUT_FOLDER_PATH = Path("../data/videos_to_convert")
-OUTPUT_FOLDER_PATH = Path("../data/converted")
+INPUT_FOLDER_PATH = Path("../data/convert_videos/videos_to_convert")
+OUTPUT_FOLDER_PATH = Path("../data/convert_videos/converted")
 OUTPUT_FORMAT = "mp4"
 
 

@@ -90,6 +90,9 @@ def process_timepoint_table(input_df: pd.DataFrame, db_path: Path) -> bool:
 
     return True
 
+def process_metrics():
+    pass
+
 def extract_table(db_path: Path, table_name: str):
     with sqlite3.connect(db_path) as conn:
         table_df = pd.read_sql_query(f"SELECT * FROM {table_name} LIMIT {LIMIT};", conn)

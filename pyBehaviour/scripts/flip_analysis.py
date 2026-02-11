@@ -21,8 +21,12 @@ FLIPPED_FOLDER: Path = Path("../data/flip_handling/flipped")
 HAND_DICT: dict = {
     '44_Vsx2ablation_211': "l",
     '44_Vsx2ablation_299': "r",
+    '46_untreated_2A': "l",
+    '46_untreated_3A': "l",
     '46_untreated_3B': "l",
+    '46_untreated_4A': "r",
     '46_untreated_4B': "r",
+    '46_untreated_5A': "r",
     '46_untreated_5B': "l",
     '65_Propriotreated_1B': "r",
     '65_Propriotreated_2A': "r",

@@ -19,6 +19,7 @@ def flip_h5(h5_path: Path, video_shape: tuple, output_folder: Path) -> None:
     # 1. Load H5
     h5_df = cast(pd.DataFrame, pd.read_hdf(h5_path, key="df_with_missing"))
     h5_x_df = h5_df.xs("x", level="coords", axis=1)
+    h5_y_df = h5_df.xs("y", level="coords", axis=1)
 
     # 2. Flip coordinates and get bp
     x_flipped = video_shape[0] - h5_x_df
@@ -32,14 +33,19 @@ def flip_h5(h5_path: Path, video_shape: tuple, output_folder: Path) -> None:
         # 1. Get the data
         left_x_data = x_flipped[(scorer, pair[0])]
         right_x_data = x_flipped[(scorer, pair[1])]
+        left_y_data = h5_y_df[(scorer, pair[0])]
+        right_y_data = h5_y_df[(scorer, pair[1])]
 
         # 2. Assigns the data
         x_flipped[(scorer, pair[0])] = right_x_data
         x_flipped[(scorer, pair[1])] = left_x_data
+        h5_y_df[(scorer, pair[0])] = right_y_data
+        h5_y_df[(scorer, pair[1])] = left_y_data
 
     # 4. Apply changes
     idx = pd.IndexSlice
     h5_df.loc[:, idx[:, :, "x"]] = x_flipped.to_numpy()
+    h5_df.loc[:, idx[:, :, "y"]] = h5_y_df.to_numpy()
 
     # 5. Store file
     output_path = build_flipped_name(h5_path, output_folder)

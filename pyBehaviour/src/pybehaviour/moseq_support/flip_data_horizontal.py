@@ -13,7 +13,7 @@ from .flip_data import(
     get_video_shape
 )
 
-
+# CRITICAL: JUST TUNRNED OFF THE VIDEO FLIP FOR JUST H5 CORRECTION
 
 # ================================================================
 # 1. Section: Functions
@@ -31,11 +31,11 @@ def flip_analysis_horizontal(
         video_shape = get_video_shape(video_path)
 
         # 3. Flip video (use ffmpeg) and h5
-        flip_video(video_path, output_folder)
+        #flip_video(video_path, output_folder)
         flip_h5(h5_path, video_shape, output_folder)
     else:
         os.makedirs(output_folder, exist_ok=True)
         out_h5_path = build_flipped_name(h5_path, output_folder)
-        out_video_path = build_flipped_name(video_path, output_folder)
+        #out_video_path = build_flipped_name(video_path, output_folder)
         shutil.copy2(h5_path, out_h5_path)
-        shutil.copy2(video_path, out_video_path)
+        #shutil.copy2(video_path, out_video_path)

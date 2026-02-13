@@ -6,7 +6,7 @@ import pandas as pd
 
 from pathlib import Path
 
-from ..dataclass import DataPoint
+from .dataclass import DataPoint
 from .metadata import get_metadata
 
 

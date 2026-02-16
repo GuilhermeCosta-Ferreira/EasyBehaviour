@@ -16,10 +16,13 @@ from pybehaviour.syllable_analysis import (
 # 1. Section: INPUTS
 # ================================================================
 RESULTS_FOLDER: Path = Path("../data/syllables/results")
-NR_OF_MODELS_TO_INSPECT: int = 2
+NR_OF_MODELS_TO_INSPECT: int = 3
 FAVORITE_MODELS: list[str] = [
-    "v1_2026_02_09-14_30_17",
+    "full_both_71",
+    "full_left_71",
+    "71_results",
     "model_50_all",
+    "v1_2026_02_09-14_30_17",
     "2026_02_11-13_18_50",
     "2026_02_11-13_52_58",
     "2026_02_11-14_31_04"

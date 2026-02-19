@@ -98,6 +98,7 @@ if __name__ == '__main__':
     df = pd.read_csv(csv_path, header=[1,2], index_col=0)
     min_dist, _ = get_mindist(df)
     start_frame = min_dist[0]
+    print(f"Min_dist frame: {min_dist[0]} Min_dist distance: {min_dist[1]}")
 
     viewer.open(video_path)
 

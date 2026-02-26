@@ -4,7 +4,7 @@
 from pathlib import Path
 from matplotlib import pyplot as plt
 
-from pybehaviour.syllable_analysis import (
+from pybehaviour.handling.syllable_analysis import (
     get_syllable_density,
     get_pca,
     get_umap,

@@ -5,7 +5,7 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 from pathlib import Path
-from pybehaviour.syllable_analysis import (
+from pybehaviour.handling.syllable_analysis import (
     get_syllable_density,
     get_average_syllables
 )

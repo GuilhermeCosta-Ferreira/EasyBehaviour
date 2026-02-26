@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # 2. Generate PCA and UMAP 2D and 3D Projections per model
     for model in models:
         syllables = get_syllable_density(model)
-        result = get_pca(syllables)
+        result = get_pca(syllables, show_details=True)
         plot_projection_2d(result, type="PCA")
         plot_projection_3d(result, type="PCA")
 

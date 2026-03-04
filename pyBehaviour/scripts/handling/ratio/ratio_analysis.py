@@ -16,7 +16,7 @@ from pybehaviour.handling.ratio_analysis import (
 # 1. Section: INPUTS
 # ================================================================
 INPUT_FOLDER: Path = Path("../data/ratio_analysis")
-CONDITIONS: list = ["#71 Group", "#71 Group"]
+CONDITIONS: list = ["#71 Group", "#46 W8"]
 THRESHOLD: float = 0.5
 
 SELECTED_PARAMS = [

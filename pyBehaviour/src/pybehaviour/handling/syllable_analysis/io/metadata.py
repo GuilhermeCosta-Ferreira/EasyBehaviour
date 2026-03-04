@@ -7,7 +7,7 @@ from pathlib import Path
 from operator import contains
 
 from .dataclass import SylableMetaData
-from ...logger import logger
+from ....logger import logger
 
 
 

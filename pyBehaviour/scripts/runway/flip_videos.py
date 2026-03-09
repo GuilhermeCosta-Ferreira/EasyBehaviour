@@ -17,8 +17,10 @@ from pybehaviour.moseq_support import flip_video
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-TO_FLIP_FOLDER: Path = Path("../data/flip_runway/to_flip")
-FLIPPED_FOLDER: Path = Path("../data/flip_runway/flipped")
+TO_FLIP_FOLDER: Path = Path("../data/flip/flip_ladder/to_flip")
+FLIPPED_FOLDER: Path = Path("../data/flip/flip_ladder/flipped")
+#ACCEPTED_VIDEO_FORMATS: list = [".mp4", ".avi"]
+ACCEPTED_VIDEO_FORMATS: list = [".avi"]
 
 
 
@@ -34,8 +36,9 @@ def extract_id(name: str) -> str:
 # ================================================================
 if __name__ == '__main__':
     # Get the files in the folder
-    mp4_files = np.array([p for p in TO_FLIP_FOLDER.iterdir() if p.is_file() and p.suffix.lower() == ".mp4"])
+    accepted = {ext.lower() for ext in ACCEPTED_VIDEO_FORMATS}
+    video_files = [p for p in TO_FLIP_FOLDER.iterdir() if p.is_file() and p.suffix.lower() in accepted]
 
     analysed_data = []
-    for mp4 in tqdm(mp4_files, desc="Flip Videos", unit="video"):
-        flip_video(mp4, FLIPPED_FOLDER)
+    for video in tqdm(video_files, desc="Flip Videos", unit="video"):
+        flip_video(video, FLIPPED_FOLDER)

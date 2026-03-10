@@ -28,3 +28,6 @@ class GroupScrap:
                 for tp, accepted_dates in self.timepoint_dict.items()
                 if present_dates.intersection(accepted_dates)
             ]
+
+    def __len__(self):
+        return len(self.files)

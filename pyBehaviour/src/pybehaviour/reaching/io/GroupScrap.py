@@ -38,8 +38,24 @@ class GroupScrap:
         return np.array(min_distances)
 
     @property
-    def mean_minimal_distance(self):
+    def mean_min_distance(self):
         return np.mean(self.min_distances)
+
+    @property
+    def min_distances_per_tp(self) -> dict:
+        storage = {}
+        for file in self.files:
+            file_tp = file.timepoint
+            if file_tp not in storage:
+                storage[file_tp] = []
+            storage[file_tp].append(float(file.min_distance))
+
+        return storage
+
+    @property
+    def mean_min_distance_per_tp(self) -> dict:
+        return {tp: sum(values) / len(values) for tp, values in self.min_distances_per_tp.items()}
+
 
 
 

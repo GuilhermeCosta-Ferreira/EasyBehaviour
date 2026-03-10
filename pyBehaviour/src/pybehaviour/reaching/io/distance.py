@@ -9,7 +9,7 @@ import numpy as np
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def get_mindist(df: pd.DataFrame) -> tuple[tuple[int, float], pd.DataFrame]:
+def get_mindist(df: pd.DataFrame) -> tuple[tuple, pd.DataFrame]:
     # 1. Check if the ('distance', 'wrist_robot') exists, if not add it
     df = add_wristrobot_distance(df)
 

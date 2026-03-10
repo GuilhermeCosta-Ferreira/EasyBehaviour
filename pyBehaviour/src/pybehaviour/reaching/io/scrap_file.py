@@ -4,11 +4,6 @@
 import numpy as np
 
 from .File import File
-from .metadata import (
-    get_file_metadata,
-    MOUSE_PATTERN,
-    DATE_PATTERN
-)
 
 
 

@@ -29,5 +29,19 @@ class GroupScrap:
                 if present_dates.intersection(accepted_dates)
             ]
 
+    @property
+    def min_distances(self) -> np.ndarray:
+        min_distances = []
+        for file in self.files:
+            min_distances.append(file.min_distance)
+
+        return np.array(min_distances)
+
+    @property
+    def mean_minimal_distance(self):
+        return np.mean(self.min_distances)
+
+
+
     def __len__(self):
         return len(self.files)

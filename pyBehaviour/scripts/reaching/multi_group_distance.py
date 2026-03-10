@@ -34,4 +34,5 @@ if __name__ == '__main__':
 
     study_group = scrap_folder(COMPARING_GROUP_FOLDER)
 
-    print(study_group.files[0].min_distance)
+    print(study_group.min_distances)
+    print(study_group.mean_minimal_distance)

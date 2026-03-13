@@ -65,8 +65,8 @@ def two_group_bar_plot(
 def assert_same_keys(dict_1: dict, dict_2: dict) -> None:
     if(dict_1.keys != dict_2.keys):
         logger.warning("Both groups have different sub-group labels, some bars migh be empty\n"
-            f"Group 1 Keys: {dict_1.keys}"
-            f"Group 2 Keys: {dict_2.keys}"
+            f"Group 1 Keys: {dict_1.keys()}"
+            f"Group 2 Keys: {dict_2.keys()}"
         )
 
 def build_data_dict(

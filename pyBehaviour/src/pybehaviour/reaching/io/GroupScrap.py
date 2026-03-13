@@ -12,6 +12,7 @@ from dataclasses import dataclass
 # ================================================================
 @dataclass
 class GroupScrap:
+    name: str
     timepoint_dict: dict
     files: np.ndarray
     dates: np.ndarray

@@ -1,13 +1,15 @@
 # ================================================================
 # 0. Section: IMPORTS
 # ================================================================
-import os
-
-import numpy as np
+from matplotlib import pyplot as plt
 
 from pathlib import Path
 
-from pybehaviour.reaching import scrap_folder
+from pybehaviour.reaching import(
+    scrap_folder,
+    multigroup_comparision,
+)
+
 
 
 # ================================================================
@@ -15,8 +17,8 @@ from pybehaviour.reaching import scrap_folder
 # ================================================================
 DLC_FOLDER: Path = Path("../data/dlc")
 COMPARING_GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
-#CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "46_reaching"
-CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
+CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "46_reaching"
+#CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
 
 
 
@@ -30,8 +32,11 @@ CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
 # 3. Section: MAIN
 # ================================================================
 if __name__ == '__main__':
-    study_group = scrap_folder(COMPARING_GROUP_FOLDER)
-    control_group = scrap_folder(CONTROL_GROUP_FOLDER)
+    study_group = scrap_folder(COMPARING_GROUP_FOLDER, "#71_MdD_MdV_regen")
+    control_group = scrap_folder(CONTROL_GROUP_FOLDER, "#46_untreated_injury")
 
-    print(study_group.min_distances_per_tp)
-    print(study_group.mean_min_distance_per_tp)
+    print(control_group.dates)
+    print(control_group.timepoints)
+
+    multigroup_comparision(control_group, study_group)
+    plt.show()

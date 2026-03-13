@@ -20,7 +20,7 @@ from .scrap_file import scrap_files
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def scrap_folder(folder_path: Path) -> GroupScrap:
+def scrap_folder(folder_path: Path, group_name: str) -> GroupScrap:
     # 1. Get all the usefull file data from the group folder
     timepoint_dict = get_timepoint_dict(folder_path)
 
@@ -34,6 +34,7 @@ def scrap_folder(folder_path: Path) -> GroupScrap:
 
     # 4. Saves it in a dataclass
     data = GroupScrap(
+        name=group_name,
         timepoint_dict=timepoint_dict,
         files=files,
         dates=dates_present,

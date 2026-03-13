@@ -22,6 +22,8 @@ def multigroup_comparision(
         group_names=(control_group.name, study_group.name),
         ylabel="Minimum Distance (px)",
         title=f"Analysis over timepoins of Group {study_group.name} vs Control",
+        fig_size=(8,8),
+        show_rects=False
     )
 
     return fig, ax

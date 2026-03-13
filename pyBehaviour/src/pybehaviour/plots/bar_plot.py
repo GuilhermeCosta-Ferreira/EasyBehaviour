@@ -18,8 +18,11 @@ def two_group_bar_plot(
     group_1_dict: dict,
     group_2_dict: dict,
     group_names: list[str] | np.ndarray | tuple,
-    ylabel: str,
-    title: str
+    ylabel: str = "Metric",
+    title: str = "Title of the Plot",
+    fig_size: tuple = (8,8),
+    ylim: tuple | None = None,
+    show_rects: bool = True,
 ) -> tuple[Figure, Axes]:
     # 1. Make sure both groups have the same keys, if not just print a warning
     assert_same_keys(group_1_dict, group_2_dict)
@@ -28,29 +31,29 @@ def two_group_bar_plot(
     sub_groups = sorted(group_1_dict.keys() | group_2_dict.keys())
     data_dict = build_data_dict(group_names, group_1_dict, group_2_dict, sub_groups)
 
-    # 3. Makes sure the sub-groups are sorted
-
     # 3. Define the group positioning
     x = np.arange(len(sub_groups))
     width = 0.25
     multiplier = 0
 
     # 4. Initialize and fill the plot
-    fig, ax = plt.subplots(layout='constrained')
+    fig, ax = plt.subplots(layout='constrained', figsize=fig_size)
+    colors = ["NR_GREY", "NR_RED"]
 
     # 5. Get sub-group bar positions and parameters
     for attribute, measurement in data_dict.items():
         offset = width * multiplier
-        rects = ax.bar(x + offset, measurement, width, label=attribute)
-        ax.bar_label(rects, padding=3)
+        rects = ax.bar(x + offset, measurement, width, label=attribute, color=colors[multiplier])
+        if show_rects:
+            ax.bar_label(rects, padding=3, label_type="center")
         multiplier += 1
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel(ylabel)
     ax.set_title(title)
-    ax.set_xticks(x + width, sub_groups)
-    ax.legend(loc='upper left', ncols=3)
-    ax.set_ylim(0, 250)
+    ax.set_xticks(x + width/2, sub_groups)
+    ax.legend(loc='upper right', ncols=1)
+    ax.set_ylim(ylim)
 
     return fig, ax
 

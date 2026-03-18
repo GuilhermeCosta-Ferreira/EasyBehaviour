@@ -23,6 +23,7 @@ def two_group_bar_plot(
     fig_size: tuple = (8,8),
     ylim: tuple | None = None,
     show_rects: bool = True,
+    colors: list[str] = ["NR_GREY", "NR_RED"]
 ) -> tuple[Figure, Axes]:
     # 1. Make sure both groups have the same keys, if not just print a warning
     assert_same_keys(group_1_dict, group_2_dict)
@@ -38,7 +39,6 @@ def two_group_bar_plot(
 
     # 4. Initialize and fill the plot
     fig, ax = plt.subplots(layout='constrained', figsize=fig_size)
-    colors = ["NR_GREY", "NR_RED"]
 
     # 5. Get sub-group bar positions and parameters
     for attribute, measurement in data_dict.items():

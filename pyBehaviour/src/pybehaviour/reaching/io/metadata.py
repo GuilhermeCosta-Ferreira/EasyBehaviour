@@ -30,3 +30,15 @@ def get_file_metadata(file: Path, pattern: str) -> str | None:
     # 2. Finds the pattern
     match = pattern_re.search(file.name)
     return match.group(0) if match else None
+
+def get_video_path(folder_path: Path, file_name: str) -> Path:
+    base = folder_path / "videos" / file_name
+
+    for ext in (".avi", ".mp4", ".MOV"):
+        candidate = base.with_suffix(ext)
+        if candidate.exists():
+            return candidate
+
+    raise FileNotFoundError(
+        f"No video file found for {file_name} with extensions .avi, .mp4, or .MOV"
+    )

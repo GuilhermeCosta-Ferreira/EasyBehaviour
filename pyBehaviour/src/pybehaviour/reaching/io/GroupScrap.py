@@ -58,7 +58,5 @@ class GroupScrap:
         return {tp: sum(values) / len(values) for tp, values in self.min_distances_per_tp.items()}
 
 
-
-
     def __len__(self):
         return len(self.files)

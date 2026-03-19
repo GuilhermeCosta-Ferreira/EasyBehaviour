@@ -20,9 +20,24 @@ def flip_video(video_path: Path, output_folder: Path) -> None:
     os.makedirs(output_folder, exist_ok=True)
 
     # 2. Build: ffmpeg -i input.mp4 -vf "hflip" -c:a copy output.mp4
+    """
+    # Loses quality over .avi files
     cmd = ["ffmpeg", "-i", str(video_path),
         "-vf", "hflip", "-c:a",
         "copy", str(output_path)]
+    """
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", str(video_path),
+        "-vf", "hflip",
+        "-c:v", "h264_videotoolbox",
+        "-q:v", "65",
+        "-pix_fmt", "yuv420p",
+        "-c:a", "copy",
+        str(output_path)
+    ]
+    """
+    """
 
     # 3. Runs the command
     proc = subprocess.run(cmd, capture_output=True, text=True)

@@ -216,3 +216,6 @@ dataBehaviour/db/*.sqlite
 dataBehaviour/db/*.sqlite-journal
 dataBehaviour/db/*.sqlite-wal
 dataBehaviour/db/*.sqlite-shm
+
+# For pybehavior
+pyBehaviour/logs

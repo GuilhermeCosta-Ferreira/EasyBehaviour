@@ -32,7 +32,7 @@ def get_file_metadata(file: Path, pattern: str) -> str | None:
     return match.group(0) if match else None
 
 def get_video_path(folder_path: Path, file_name: str) -> Path:
-    base = folder_path / "videos" / file_name
+    base = folder_path.parent / "videos" / file_name
 
     for ext in (".avi", ".mp4", ".MOV"):
         candidate = base.with_suffix(ext)

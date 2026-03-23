@@ -16,8 +16,8 @@ import pybehaviour as pyb # important for styling
 # 1. Section: INPUTS
 # ================================================================
 BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
-GROUP_FOLDER: Path = BASE_FOLDER / "study/raw"
-FILE_PATH: Path = GROUP_FOLDER.parent / "file_list_label.xlsx"
+GROUP_FOLDER: Path = BASE_FOLDER / "study"
+FILE_PATH: Path = GROUP_FOLDER / "file_list_label.xlsx"
 JSON_PATH: Path = BASE_FOLDER / "reaching_states.json"
 
 

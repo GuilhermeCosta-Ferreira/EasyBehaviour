@@ -7,6 +7,8 @@ from .plots import (
 from .preprocess import (
     likelihood_filter,
     low_pass_filter,
+    review_preprocess,
+    generate_all_possible_preprocess
 )
 
 __all__ = [
@@ -15,5 +17,7 @@ __all__ = [
     "likelihood_filter",
     "low_pass_filter",
     "plot_best_frame",
-    "plot_filter_displacement"
+    "plot_filter_displacement",
+    "review_preprocess",
+    "generate_all_possible_preprocess"
 ]

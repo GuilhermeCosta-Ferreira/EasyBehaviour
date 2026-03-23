@@ -12,8 +12,8 @@ from pybehaviour.reaching.io import get_labels_path
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
+BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
+GROUP_FOLDER: Path = BASE_FOLDER / "study/raw"
 
 
 
@@ -34,6 +34,6 @@ if __name__ == '__main__':
     )
 
     # 3. Save it as excel in the group folder
-    file_path = GROUP_FOLDER / "file_list_label.xlsx"
+    file_path = GROUP_FOLDER.parent / "file_list_label.xlsx"
     df.to_excel(file_path, index=False)
     print(f"Saved at {file_path}")

@@ -19,8 +19,8 @@ from pybehaviour.reaching import(
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
+BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
+GROUP_FOLDER: Path = BASE_FOLDER / "study"
 GROUP_NAME: str = "#71_MdD_MdV_regen"
 VIDEO_NR: int = 400
 

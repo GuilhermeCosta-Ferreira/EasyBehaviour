@@ -20,12 +20,16 @@ from .scrap_file import scrap_files
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def scrap_folder(folder_path: Path, group_name: str) -> GroupScrap:
+def scrap_folder(
+    folder_path: Path,
+    group_name: str,
+    csv_folder_name: str = "raw"
+) -> GroupScrap:
     # 1. Get all the usefull file data from the group folder
     timepoint_dict = get_timepoint_dict(folder_path)
 
     # 2. Get all the individual file data
-    csv_files = get_labels_path(folder_path / "raw_csv")
+    csv_files = get_labels_path(folder_path / csv_folder_name)
     files = scrap_files(csv_files, timepoint_dict)
 
     # 3. Get content info

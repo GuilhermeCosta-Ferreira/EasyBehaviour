@@ -25,7 +25,7 @@ def scrap_folder(folder_path: Path, group_name: str) -> GroupScrap:
     timepoint_dict = get_timepoint_dict(folder_path)
 
     # 2. Get all the individual file data
-    csv_files = get_labels_path(folder_path)
+    csv_files = get_labels_path(folder_path / "raw_csv")
     files = scrap_files(csv_files, timepoint_dict)
 
     # 3. Get content info

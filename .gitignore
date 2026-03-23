@@ -222,4 +222,14 @@ pyBehaviour/logs
 # For dataStorage
 data/*
 !data/reaching/
-!data/reaching/**
+!data/reaching/**/
+data/reaching/**
+!data/reaching/**/*.json
+!data/reaching/**/.gitkeep
+
+data/*
+!data/handling/
+!data/handling/**/
+data/handling/**
+!data/handling/**/*.json
+!data/handling/**/.gitkeep

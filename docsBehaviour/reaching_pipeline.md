@@ -2,7 +2,7 @@
 title: Reaching Pipeline
 toc: true
 ---
-Here the is described all steps needed for an effective and rouble free data acquisition for the reaching behaviour
+Here are described all steps needed for an effective and trouble free data acquisition for the reaching behaviour.
 
 ## 1. Data Acquisition
 1. First the data needs to be acquired from the *mouse-bots*. These bots are in the animal-zone and can be handled by the *ReachingBot* software in the local machine there. Make sure the right handed mice are placed in the bots with the camera on the left side and the left-handed mice on the bots with the camera to your right.

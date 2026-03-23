@@ -5,7 +5,7 @@
 
 #let horizontalrule = block(
   above: 2em,
-  below: 0.8em,
+  below: 2em,
   line(
     start: (15%, 0%),
     end: (85%, 0%),
@@ -25,10 +25,7 @@
 #show heading.where(level: 2): set block(below: 1.5em)
 #show heading.where(level: 3): set block(below: 0.4em)
 
-#show emph: set text(
-  fill: mocha.peach,
-  style: "italic",
-)
+#show emph: set text(fill: mocha.peach)
 #set par(justify: true)
 
 #show strong: set text(
@@ -45,6 +42,44 @@
   font: "Libertinus Serif",
   size: 11pt,
 )
+
+#show raw.where(block: false): it => box(
+  fill: mocha.surface0,
+  radius: 2pt,
+  inset: (x: 4pt),
+  outset: (y: 1.5pt),
+  text(
+    fill: mocha.green,
+    font: "Menlo",
+    size: 0.9em,
+  )[#it.text]
+)
+
+#show quote: it => block(
+  above: 0.8em,
+  below: 0.8em,
+  fill: mocha.surface0,
+  radius: 0pt,
+  inset: 0pt,
+  stroke: none,
+  breakable: true,
+)[
+  #grid(
+    columns: (2.5pt, 1fr),
+    column-gutter: 10pt,
+
+    rect(
+      fill: mocha.blue,
+      stroke: none,
+    ),
+
+    align(left + horizon)[
+      #block(inset: (x: 0pt, y: 8pt))[
+        #text(fill: mocha.text)[#it.body]
+      ]
+    ]
+  )
+]
 
 #if title != none [
   #align(center)[

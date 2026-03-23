@@ -21,4 +21,16 @@ Here the is described all steps needed for an effective and rouble free data acq
 ---
 
 ## 3. Preprocessing
+> Do all these steps both for the study group and for the control group
+
 1. Before we get some cool plots we need to make sure we have all the **metadata** and that we remove all **noise**. This is where **EasyBehaviour** and **pyBehaviour** come to help.
+2. First let's download from the server the data we need.
+    1. The `.csv` files should go `data/reaching/study/raw` 
+    2. The `.mp4`/`.avi`/`.mov` unlabeled at `data/reaching/study/videos`
+    3. The `.mp4`/`.avi`/`.mov` labeled at `data/reaching/study/videos_labeled`
+3. First let's generate the `file_list_label.xlsx` file. This will help you label every video into the different categories. To generate run `scripts/reaching/get_file_csv.py`
+4. Now sort by name and open all videos with **VLC**
+5. Watch and fill the excel. Use they key at `data/reaching/reaching_states.json`
+6. Because it takes time and to avoid repeating work upload the `file_list_label.xlsx` to the server under the respective mice group.
+7. Once is filled you can inspect the model performance by running: `scripts/reaching/analyze_file_` `labels.py`
+8. Know is time to preprocess what is needed and avoid what is not needed.

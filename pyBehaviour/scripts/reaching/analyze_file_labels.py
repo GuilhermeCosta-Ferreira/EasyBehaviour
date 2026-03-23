@@ -4,28 +4,21 @@
 import json
 
 import pandas as pd
-import numpy as np
 from matplotlib import pyplot as plt
 
 from pathlib import Path
 
-import pybehaviour as py
+import pybehaviour as pyb # important for styling
 
 
 
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
-FILE_PATH: Path = GROUP_FOLDER / "file_list_label.xlsx"
-JSON_PATH: Path = DLC_FOLDER / "reaching_states.json"
-
-
-
-# ================================================================
-# 2. Section: FUNCTIONS
-# ================================================================
+BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
+GROUP_FOLDER: Path = BASE_FOLDER / "study/raw"
+FILE_PATH: Path = GROUP_FOLDER.parent / "file_list_label.xlsx"
+JSON_PATH: Path = BASE_FOLDER / "reaching_states.json"
 
 
 

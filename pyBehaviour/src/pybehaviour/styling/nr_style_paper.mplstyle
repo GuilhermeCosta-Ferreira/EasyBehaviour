@@ -31,7 +31,7 @@ axes.axisbelow: True   # <-- this makes the grid stay in the background
 
 
 # Plot colors
-axes.prop_cycle: cycler(color=["NR_BLUE", "NR_RED", "NR_DARK_BLUE", "NR_LIGHT_RED"])
+axes.prop_cycle: cycler(color=["NR_RED", "NR_BLUE", "NR_LIGHT_RED", "NR_DARK_BLUE"])
 
 # Imshow
 image.cmap: nr_cmap

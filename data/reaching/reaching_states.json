@@ -1,0 +1,20 @@
+{
+  "states": [
+    {
+      "id": 0,
+      "name": "no_need"
+    },
+    {
+      "id": 1,
+      "name": "no_reach"
+    },
+    {
+      "id": 2,
+      "name": "automatic"
+    },
+    {
+      "id": 3,
+      "name": "manual"
+    }
+  ]
+}

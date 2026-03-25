@@ -3,9 +3,7 @@
 # ================================================================
 import shutil
 
-import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 
 from pathlib import Path
 
@@ -50,43 +48,6 @@ def get_file_state(file, labels_df: pd.DataFrame) -> int | None:
         return int(match.iloc[0])
     else:
         return None
-
-def review_plots(plotters, output_file: Path):
-    """
-    plotters: list of callables, where each callable creates one plot
-             e.g. plotters[i]() draws figure i
-    output_file: file where accepted plot index will be saved
-    """
-    accepted_index = None
-
-    for i, plot_func in enumerate(plotters):
-        fig, ax = plt.subplots()
-        plot_func(ax)
-
-        decision = {"accepted": False}
-
-        def on_key(event):
-            if event.key == "y":
-                decision["accepted"] = True
-                plt.close(fig)
-            elif event.key == "n":
-                plt.close(fig)
-
-        fig.canvas.mpl_connect("key_press_event", on_key)
-
-        ax.set_title(f"Plot {i} — close window = reject/next, press 'y' = accept")
-        plt.show()   # blocks until window is closed
-
-        if decision["accepted"]:
-            accepted_index = i
-            break
-
-    if accepted_index is not None:
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        output_file.write_text(str(accepted_index))
-        print(f"Accepted plot index saved: {accepted_index}")
-    else:
-        print("No plot was accepted.")
 
 
 

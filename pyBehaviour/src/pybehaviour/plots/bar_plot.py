@@ -6,10 +6,9 @@ from matplotlib import pyplot as plt
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from matplotlib.colors import to_rgba
-from matplotlib.lines import Line2D
 
 from ..logger import logger
+from .features import convert_rect_to_grad, nice_legend
 
 
 
@@ -19,7 +18,7 @@ from ..logger import logger
 def two_group_bar_plot(
     group_1_dict: dict,
     group_2_dict: dict,
-    group_names: list[str] | np.ndarray | tuple,
+    group_names: list[str] | np.ndarray,
     ylabel: str = "Metric",
     title: str = "Title of the Plot",
     fig_size: tuple = (8,8),
@@ -44,78 +43,25 @@ def two_group_bar_plot(
     # 4. Initialize and fill the plot
     fig, ax = plt.subplots(layout='constrained', figsize=fig_size)
 
-
-
     # 5. Get sub-group bar positions and parameters
-    multiplier = 0
-    for attribute, measurement in data_dict.items():
-        offset = (width + gap) * multiplier
-
-        rects = ax.bar(x + offset, measurement, width, label=attribute, color="none")
-
-        for rect, h in zip(rects, measurement):
-                    if np.isnan(h) or h <= 0:
-                        continue
-
-                    add_vertical_gradient_to_bar(
-                        ax=ax,
-                        rect=rect,
-                        color=colors[multiplier],
-                        alpha_bottom=0.0,
-                        alpha_top=1.0
-                    )
-
-        if show_rects:
-            ax.bar_label(rects, padding=3, label_type="center")
-        multiplier += 1
+    add_bars(data_dict, ax, x, colors, show_rects, width, gap)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel(ylabel)
     ax.set_title(title)
-    ax.set_xticks(x + (width + gap)/2, sub_groups)
     ax.set_aspect("auto")
+
+    # 7. Define the Y lim and its ticks
+    ax = get_y_axis(ax, ylabel, ylim, vertical_offset, data_dict)
+
+    # 8. Define the X lim and its ticks
+    ax.set_xticks(x + (width + gap)/2, sub_groups)
     ax.set_xlim(-width, len(sub_groups) - 1 + width * 2 + gap)
     ax.tick_params(axis='x', length=0)
-    if show_legend:
-        ax.legend(loc='upper right', ncols=1)
     ax.spines["bottom"].set_visible(False)
 
-    if vertical_offset == 0 and ylim is not None:
-        ax.set_ylim(ylim)
-        ax.set_yticks([0, int(ylim[1])])
-    else:
-        max_value = max(np.nanmax(arr) for arr in data_dict.values())
-        ymax = max_value + vertical_offset
-        ax.set_ylim((0, int(ymax)))
-        ax.set_yticks([0, int(ymax)])
-
-    if vertical_offset == 0:
-        ax.set_ylim(ylim)
-    else:
-        max_value = max(np.max(arr) for arr in data_dict.values())
-        ax.set_ylim((0, max_value + vertical_offset))
-
-    legend_handles = [
-        Line2D([0], [0], marker='o', linestyle='None',
-               markerfacecolor=colors[0], markeredgecolor=colors[0],
-               markersize=14, label='Control'),
-
-        Line2D([0], [0], marker='o', linestyle='None',
-               markerfacecolor=colors[1], markeredgecolor=colors[1],
-               markersize=14, label=group_names[1]),
-    ]
-
-    ax.legend(
-        handles=legend_handles,
-        loc='upper center',
-        bbox_to_anchor=(0.5, -0.10),
-        ncol=2,
-        frameon=False,
-        handlelength=0.8,
-        handletextpad=0.5,
-        columnspacing=1.5,
-        fontsize=16
-    )
+    # 9. Builds the legend for better visualization
+    if show_legend:
+        ax = nice_legend(ax, colors, group_names)
 
     return fig, ax
 
@@ -142,32 +88,45 @@ def build_data_dict(
             group_names[1]: [dict_2.get(sub_group, np.nan) for sub_group in sub_groups],
         }
 
-def add_vertical_gradient_to_bar(
+def add_bars(
+    data_dict: dict,
     ax: Axes,
-    rect,
-    color: str,
-    alpha_bottom: float = 0.0,
-    alpha_top: float = 1.0
+    x: np.ndarray,
+    colors: list,
+    show_rects: bool,
+    width: float,
+    gap: float
 ) -> None:
-    x = rect.get_x()
-    y = rect.get_y()
-    w = rect.get_width()
-    h = rect.get_height()
+    multiplier = 0
+    for attribute, measurement in data_dict.items():
+        # 1. Computes the offset for bar placing on the x axis
+        offset = (width + gap) * multiplier
 
-    rgba = np.array(to_rgba(color))
-    gradient = np.ones((256, 1, 4))
-    gradient[..., :3] = rgba[:3]
+        # 2. Computes the rects as fading gradients
+        rects = ax.bar(x + offset, measurement, width, label=attribute, color="none")
+        rects = convert_rect_to_grad(rects, ax, measurement, colors[multiplier])
 
-    t = np.linspace(0, 1, 256).reshape(256, 1)
-    gradient[..., 3] = alpha_bottom + (alpha_top - alpha_bottom) * (t ** 0.5)
+        # 3. To show or not the measurement value at the top
+        if show_rects:
+            ax.bar_label(rects, padding=3, label_type="center")
+        multiplier += 1
 
-    im = ax.imshow(
-        gradient,
-        extent=[x, x + w, y, y + h],
-        origin="lower",
-        aspect="auto",
-        interpolation="bicubic",
-        zorder=2
-    )
+def get_y_axis(
+    ax: Axes,
+    ylabel: str,
+    ylim: tuple | None,
+    vertical_offset: float,
+    data_dict: dict
+) -> Axes:
+    ax.set_ylabel(ylabel)
+    if vertical_offset == 0 and ylim is not None:
+        ax.set_ylim(ylim)
+        ax.set_yticks([0,
+            int(ylim[1])])
+    else:
+        max_value = max(np.nanmax(arr) for arr in data_dict.values())
+        ymax = max_value + vertical_offset
+        ax.set_ylim((0, int(ymax)))
+        ax.set_yticks([0, int(ymax)])
 
-    im.set_clip_path(rect)
+    return ax

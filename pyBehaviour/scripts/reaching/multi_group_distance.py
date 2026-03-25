@@ -19,7 +19,7 @@ from pybehaviour.reaching import(
 BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
 
 COMPARING_GROUP_FOLDER: Path = BASE_FOLDER / "study"
-COMPARING_GROUP_NAME: str = "#71 MdD-MdV Regeneration"
+COMPARING_GROUP_NAME: str = r"Treated$^{MdD-MdV}$"
 
 CONTROL_GROUP_FOLDER: Path = BASE_FOLDER / "control"
 CONTROL_GROUP_NAME: str = "#46 Untreated Injury"

@@ -26,7 +26,7 @@ def multigroup_comparision(
         show_rects=False,
         vertical_offset=10,
         gap=0.05,
-        show_legend=False,
+        show_legend=True,
     )
 
     return fig, ax
@@ -49,11 +49,11 @@ def multigroup_chronic_comparision(
         group_names=(control_group.name, study_group.name),
         ylabel="Distance to pallet",
         title="",
-        fig_size=(5,7),
+        fig_size=(4,7),
         show_rects=False,
         gap=0.05,
         vertical_offset=10,
-        show_legend=False,
+        show_legend=False
     )
 
     return fig, ax

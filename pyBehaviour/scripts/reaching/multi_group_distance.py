@@ -8,6 +8,7 @@ from pathlib import Path
 from pybehaviour.reaching import(
     scrap_folder,
     multigroup_comparision,
+    multigroup_chronic_comparision
 )
 
 
@@ -15,12 +16,13 @@ from pybehaviour.reaching import(
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-COMPARING_GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
-COMPARING_GROUP_NAME: str = "#71_MdD_MdV_regen"
+BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
 
-CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "46_reaching"
-CONTROL_GROUP_NAME: str = "#46_untreated_injury"
+COMPARING_GROUP_FOLDER: Path = BASE_FOLDER / "study"
+COMPARING_GROUP_NAME: str = "#71 MdD-MdV Regeneration"
+
+CONTROL_GROUP_FOLDER: Path = BASE_FOLDER / "control"
+CONTROL_GROUP_NAME: str = "#46 Untreated Injury"
 
 
 
@@ -32,4 +34,5 @@ if __name__ == '__main__':
     control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME)
 
     multigroup_comparision(control_group, study_group)
+    multigroup_chronic_comparision(control_group, study_group)
     plt.show()

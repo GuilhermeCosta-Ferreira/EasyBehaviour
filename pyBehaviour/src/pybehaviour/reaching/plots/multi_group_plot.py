@@ -3,6 +3,7 @@
 # ================================================================
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from pybehaviour.plots.PlotSettings import PlotSettings
 
 from ...plots import two_group_bar_plot
 from ..io import GroupScrap
@@ -16,10 +17,9 @@ def multigroup_comparision(
     control_group: GroupScrap,
     study_group: GroupScrap
 ) -> tuple[Figure, Axes]:
-    fig, ax = two_group_bar_plot(
-        group_1_dict=control_group.mean_min_distance_per_tp,
-        group_2_dict=study_group.mean_min_distance_per_tp,
-        group_names=(control_group.name, study_group.name),
+
+    # 1. Get the settings
+    plt_settings = PlotSettings(
         ylabel="Distance to pallet",
         title="",
         fig_size=(10,6),
@@ -29,12 +29,21 @@ def multigroup_comparision(
         show_legend=True,
     )
 
+    # 2. Generate the plots
+    fig, ax = two_group_bar_plot(
+        group_1_dict=control_group.mean_min_distance_per_tp,
+        group_2_dict=study_group.mean_min_distance_per_tp,
+        group_names=(control_group.name, study_group.name),
+        plt_settings=plt_settings
+    )
+
     return fig, ax
 
 def multigroup_chronic_comparision(
     control_group: GroupScrap,
     study_group: GroupScrap
 ) -> tuple[Figure, Axes]:
+    # 1. Get the chronic data
     control_data = {
         "Chronic": control_group.mean_min_distance_per_tp["post_injury_week_8"]
     }
@@ -43,10 +52,8 @@ def multigroup_chronic_comparision(
         "Chronic": study_group.mean_min_distance_per_tp["post_injury_week_8"]
     }
 
-    fig, ax = two_group_bar_plot(
-        group_1_dict=control_data,
-        group_2_dict=study_data,
-        group_names=(control_group.name, study_group.name),
+    # 2. Plot settings
+    plt_settings = PlotSettings(
         ylabel="Distance to pallet",
         title="",
         fig_size=(4,7),
@@ -54,6 +61,14 @@ def multigroup_chronic_comparision(
         gap=0.05,
         vertical_offset=10,
         show_legend=False
+    )
+
+    # 3. Generate the plot
+    fig, ax = two_group_bar_plot(
+        group_1_dict=control_data,
+        group_2_dict=study_data,
+        group_names=(control_group.name, study_group.name),
+        plt_settings=plt_settings
     )
 
     return fig, ax

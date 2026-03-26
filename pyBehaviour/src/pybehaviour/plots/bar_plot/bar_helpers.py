@@ -19,9 +19,10 @@ def add_bars(
     ax: Axes,
     x: np.ndarray,
     plt_settings: PlotSettings
-) -> None:
+) -> Axes:
     multiplier = 0
     for attribute, measurement in data_dict.items():
+        print(attribute, measurement)
         # 1. Computes the offset for bar placing on the x axis
         offset = (plt_settings.width + plt_settings.gap) * multiplier
 
@@ -33,6 +34,8 @@ def add_bars(
         if plt_settings.show_rects:
             ax.bar_label(rects, padding=3, label_type="center")
         multiplier += 1
+
+    return ax
 
 
 

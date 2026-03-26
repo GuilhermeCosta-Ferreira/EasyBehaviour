@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from scipy.stats import ttest_ind
+from pprint import pprint
 
 from ..features import nice_legend
 from ..PlotSettings import PlotSettings
@@ -19,8 +20,8 @@ from ...stats import p_to_stars
 # 1. Section: Functions
 # ================================================================
 def two_group_stat_bar_plot(
-    group_1_dict: dict,
-    group_2_dict: dict,
+    group_1_dict: dict[str, dict[str, list[float]]],
+    group_2_dict: dict[str, dict[str, list[float]]],
     group_names: list[str] | np.ndarray,
     plt_settings: PlotSettings = PlotSettings(),
 ) -> tuple[Figure, Axes]:
@@ -30,6 +31,7 @@ def two_group_stat_bar_plot(
     # 2. Builds a dict better suited for this
     sub_groups = sorted(group_1_dict.keys() | group_2_dict.keys())
     data_dict = build_data_dict(group_names, group_1_dict, group_2_dict, sub_groups)
+    mean_dict = build_mean_data_dict(data_dict)
 
     # 3. Define the group positioning
     x = np.arange(len(sub_groups))
@@ -38,14 +40,15 @@ def two_group_stat_bar_plot(
     fig, ax = plt.subplots(layout='constrained', figsize=plt_settings.fig_size)
 
     # 5. Get sub-group bar positions and parameters
-    add_bars(data_dict, ax, x, plt_settings)
+    ax = add_bars(mean_dict, ax, x, plt_settings)
+    ax = add_points(data_dict, ax, x, plt_settings)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_title(plt_settings.title)
     ax.set_aspect("auto")
 
     # 7. Define the Y lim and its ticks
-    ax = get_y_axis(ax, data_dict, plt_settings)
+    ax = get_y_axis(ax, mean_dict, plt_settings)
 
     # 8. Define the X lim and its ticks
     ax.set_xticks(x + (plt_settings.width + plt_settings.gap)/2, sub_groups)
@@ -70,9 +73,37 @@ def build_data_dict(
     sub_groups: list[str]
 ) -> dict:
     return {
-            group_names[0]: [dict_1.get(sub_group, np.nan) for sub_group in sub_groups],
-            group_names[1]: [dict_2.get(sub_group, np.nan) for sub_group in sub_groups],
+            group_names[0]: [list(dict_1.get(sub_group, {}).values()) for sub_group in sub_groups],
+            group_names[1]: [list(dict_2.get(sub_group, {}).values()) for sub_group in sub_groups],
         }
+
+def build_mean_data_dict(data_dict: dict) -> dict:
+    return {
+        group_name: [float(np.mean(values)) for values in sub_dict]
+        for group_name, sub_dict in data_dict.items()
+    }
+
+def add_points(data_dict, ax, x, plt_settings) -> Axes:
+    multiplier = 0
+    for attribute, measurement in data_dict.items():
+        print(attribute, measurement)
+
+        # 1. Computes the offset for bar placing on the x axis
+        offset = (plt_settings.width + plt_settings.gap) * multiplier
+        jitter = 0
+
+        # 2. Computes the rects as fading gradients
+        for idx, msr in enumerate(measurement):
+            print(f"    {msr}")
+            print(f"    {[int(x[idx])] * len(msr)}")
+
+            ax.scatter(np.array([int(x[idx])] * len(msr)) + offset + jitter, msr, plt_settings.width, label=attribute, color=plt_settings.colors[multiplier])
+
+        multiplier += 1
+
+    return ax
+
+
 
 def add_significance_lines(
     ax: Axes,

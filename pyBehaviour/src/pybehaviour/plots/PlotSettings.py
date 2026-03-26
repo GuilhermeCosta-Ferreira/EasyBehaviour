@@ -25,3 +25,4 @@ class PlotSettings:
     scatter_alpha: float = 0.8
     show_points: bool = False
     show_errorbar: bool = False
+    show_pvalue: bool = False

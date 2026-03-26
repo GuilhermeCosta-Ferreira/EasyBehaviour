@@ -10,7 +10,7 @@ from scipy.stats import ttest_ind
 
 from ..features import nice_legend
 from ..PlotSettings import PlotSettings
-from .bar_helpers import add_bars, add_points, add_errorbar, get_y_axis, assert_same_keys
+from .bar_helpers import add_bars, add_points, add_errorbar, get_y_axis, add_pvalue, assert_same_keys
 from ...stats import p_to_stars
 
 
@@ -45,6 +45,8 @@ def two_group_stat_bar_plot(
         ax = add_points(data_dict, ax, x, plt_settings)
     if plt_settings.show_errorbar:
         ax = add_errorbar(mean_dict, std_dict, ax, x, plt_settings)
+    if plt_settings.show_pvalue:
+        ax = add_pvalue(data_dict, ax, x, plt_settings)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_title(plt_settings.title)

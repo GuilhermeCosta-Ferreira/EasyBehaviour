@@ -107,6 +107,14 @@ def add_errorbar(
 
     return ax
 
+def add_pvalue(data_dict: dict,
+    ax: Axes,
+    x: np.ndarray,
+    plt_settings: PlotSettings
+    ) -> Axes:
+
+    pass
+
 
 # ================================================================
 # 2. Section: Axis Management

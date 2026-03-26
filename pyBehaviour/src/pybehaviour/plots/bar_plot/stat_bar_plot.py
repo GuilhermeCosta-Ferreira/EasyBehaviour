@@ -7,11 +7,10 @@ from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from scipy.stats import ttest_ind
-from pprint import pprint
 
 from ..features import nice_legend
 from ..PlotSettings import PlotSettings
-from .bar_helpers import add_bars, get_y_axis, assert_same_keys
+from .bar_helpers import add_bars, add_points, get_y_axis, assert_same_keys
 from ...stats import p_to_stars
 
 
@@ -82,26 +81,6 @@ def build_mean_data_dict(data_dict: dict) -> dict:
         group_name: [float(np.mean(values)) for values in sub_dict]
         for group_name, sub_dict in data_dict.items()
     }
-
-def add_points(data_dict, ax, x, plt_settings) -> Axes:
-    multiplier = 0
-    for attribute, measurement in data_dict.items():
-        print(attribute, measurement)
-
-        # 1. Computes the offset for bar placing on the x axis
-        offset = (plt_settings.width + plt_settings.gap) * multiplier
-        jitter = 0
-
-        # 2. Computes the rects as fading gradients
-        for idx, msr in enumerate(measurement):
-            print(f"    {msr}")
-            print(f"    {[int(x[idx])] * len(msr)}")
-
-            ax.scatter(np.array([int(x[idx])] * len(msr)) + offset + jitter, msr, plt_settings.width, label=attribute, color=plt_settings.colors[multiplier])
-
-        multiplier += 1
-
-    return ax
 
 
 

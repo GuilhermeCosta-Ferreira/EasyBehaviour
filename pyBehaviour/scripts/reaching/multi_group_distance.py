@@ -11,7 +11,7 @@ from pybehaviour.reaching import(
     multigroup_comparision,
     multigroup_chronic_comparision
 )
-from pybehaviour.plots import two_group_stat_bar_plot
+from pybehaviour.plots import two_group_stat_bar_plot, PlotSettings
 
 
 
@@ -35,10 +35,21 @@ if __name__ == '__main__':
     study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME)
     control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME)
 
+    plt_settings = PlotSettings(
+        ylabel="Distance to pallet",
+        title="",
+        fig_size=(10,6),
+        show_rects=False,
+        vertical_offset=10,
+        gap=0.05,
+        show_legend=True,
+    )
+
     two_group_stat_bar_plot(
         control_group.mean_min_distance_per_mouse_per_tp,
         study_group.mean_min_distance_per_mouse_per_tp,
-        [control_group.name, study_group.name]
+        [control_group.name, study_group.name],
+        plt_settings
     )
     plt.show()
 

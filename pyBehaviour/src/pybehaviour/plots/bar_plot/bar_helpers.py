@@ -8,6 +8,7 @@ from matplotlib.axes import Axes
 from ..PlotSettings import PlotSettings
 from ..features import convert_rect_to_grad
 from ...logger import logger
+from ...styling import change_lighness
 
 
 
@@ -33,6 +34,40 @@ def add_bars(
         # 3. To show or not the measurement value at the top
         if plt_settings.show_rects:
             ax.bar_label(rects, padding=3, label_type="center")
+        multiplier += 1
+
+    return ax
+
+def add_points(
+    data_dict: dict,
+    ax: Axes,
+    x: np.ndarray,
+    plt_settings: PlotSettings
+) -> Axes:
+    multiplier = 0
+    for attribute, measurement in data_dict.items():
+
+        # 1. Computes the offset for bar placing on the x axis
+        offset = (plt_settings.width + plt_settings.gap) * multiplier
+
+        # 2. Computes the rects as fading gradients
+        for idx, msr in enumerate(measurement):
+            color = plt_settings.colors[multiplier]
+            soft_color = change_lighness(color, factor=0.10)
+
+            jitter = np.random.uniform(-0.015, 0.015, size=len(msr))
+
+            ax.scatter(
+                np.array([int(x[idx])] * len(msr)) + offset + jitter,
+                msr,
+                s=75,
+                label=attribute,
+                color=soft_color,
+                zorder=5,
+                alpha=0.8,
+                edgecolor="none"
+            )
+
         multiplier += 1
 
     return ax

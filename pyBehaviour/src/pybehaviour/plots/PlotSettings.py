@@ -24,3 +24,4 @@ class PlotSettings:
     lightness_factor: float = 0.1
     scatter_alpha: float = 0.8
     show_points: bool = False
+    show_errorbar: bool = False

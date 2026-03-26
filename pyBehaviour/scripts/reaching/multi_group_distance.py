@@ -40,12 +40,16 @@ if __name__ == '__main__':
         title="",
         fig_size=(10,6),
         show_rects=False,
-        vertical_offset=10,
+        vertical_offset=20,
         gap=0.05,
         show_legend=True,
         lightness_factor=0.11,
-        show_points=True
+        show_points=True,
+        show_errorbar=True
     )
+
+    pprint(control_group.mean_min_distance_per_mouse_per_tp)
+    pprint(study_group.mean_min_distance_per_mouse_per_tp)
 
     two_group_stat_bar_plot(
         control_group.mean_min_distance_per_mouse_per_tp,
@@ -54,6 +58,7 @@ if __name__ == '__main__':
         plt_settings
     )
     plt.show()
+
 
     multigroup_comparision(control_group, study_group)
     multigroup_chronic_comparision(control_group, study_group)

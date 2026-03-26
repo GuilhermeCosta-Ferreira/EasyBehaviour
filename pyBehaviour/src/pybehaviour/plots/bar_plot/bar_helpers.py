@@ -23,7 +23,6 @@ def add_bars(
 ) -> Axes:
     multiplier = 0
     for attribute, measurement in data_dict.items():
-        print(attribute, measurement)
         # 1. Computes the offset for bar placing on the x axis
         offset = (plt_settings.width + plt_settings.gap) * multiplier
 
@@ -46,7 +45,6 @@ def add_points(
 ) -> Axes:
     multiplier = 0
     for attribute, measurement in data_dict.items():
-
         # 1. Computes the offset for bar placing on the x axis
         offset = (plt_settings.width + plt_settings.gap) * multiplier
 
@@ -72,6 +70,42 @@ def add_points(
 
     return ax
 
+def add_errorbar(
+    mean_dict: dict,
+    std_dict: dict,
+    ax: Axes,
+    x: np.ndarray,
+    plt_settings: PlotSettings
+    ) -> Axes:
+
+    multiplier = 0
+    for attribute, measurement in mean_dict.items():
+        # 1. Computes the offset for bar placing on the x axis
+        offset = (plt_settings.width + plt_settings.gap) * multiplier
+
+        cap_half_width = 0.04
+
+        # 2. Computes the rects as fading gradients
+        ax.vlines(
+            x + offset,
+            measurement,
+            np.array(measurement) + np.array(std_dict[attribute]),
+            color="black",
+            linewidth=2,
+            zorder=6
+        )
+        ax.hlines(
+            np.array(measurement) + np.array(std_dict[attribute]),
+            x + offset - cap_half_width,
+            x + offset + cap_half_width,
+            color="black",
+            linewidth=2,
+            zorder=6
+        )
+
+        multiplier += 1
+
+    return ax
 
 
 # ================================================================

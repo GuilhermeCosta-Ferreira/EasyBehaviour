@@ -10,7 +10,7 @@ from scipy.stats import ttest_ind
 
 from ..features import nice_legend
 from ..PlotSettings import PlotSettings
-from .bar_helpers import add_bars, add_points, get_y_axis, assert_same_keys
+from .bar_helpers import add_bars, add_points, add_errorbar, get_y_axis, assert_same_keys
 from ...stats import p_to_stars
 
 
@@ -31,6 +31,7 @@ def two_group_stat_bar_plot(
     sub_groups = sorted(group_1_dict.keys() | group_2_dict.keys())
     data_dict = build_data_dict(group_names, group_1_dict, group_2_dict, sub_groups)
     mean_dict = build_mean_data_dict(data_dict)
+    std_dict = build_std_data_dict(data_dict)
 
     # 3. Define the group positioning
     x = np.arange(len(sub_groups))
@@ -42,6 +43,8 @@ def two_group_stat_bar_plot(
     ax = add_bars(mean_dict, ax, x, plt_settings)
     if plt_settings.show_points:
         ax = add_points(data_dict, ax, x, plt_settings)
+    if plt_settings.show_errorbar:
+        ax = add_errorbar(mean_dict, std_dict, ax, x, plt_settings)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_title(plt_settings.title)
@@ -80,6 +83,12 @@ def build_data_dict(
 def build_mean_data_dict(data_dict: dict) -> dict:
     return {
         group_name: [float(np.mean(values)) for values in sub_dict]
+        for group_name, sub_dict in data_dict.items()
+    }
+
+def build_std_data_dict(data_dict: dict) -> dict:
+    return {
+        group_name: [float(np.std(values)) for values in sub_dict]
         for group_name, sub_dict in data_dict.items()
     }
 

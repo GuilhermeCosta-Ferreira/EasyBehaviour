@@ -27,6 +27,10 @@ class File:
         # 1. Metadata
         self.path = path
         self.mouse = get_file_metadata(path, MOUSE_PATTERN)
+        if self.mouse is None:
+            self.mouse = self.file_name.split("_")[0]
+        else:
+            self.mouse = self.mouse.replace("_", "")
         self.date = get_file_metadata(path, DATE_PATTERN)
         self.timepoint_dict = timepoint_dict
 

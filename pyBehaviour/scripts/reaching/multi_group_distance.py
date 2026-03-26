@@ -43,6 +43,8 @@ if __name__ == '__main__':
         vertical_offset=10,
         gap=0.05,
         show_legend=True,
+        lightness_factor=0.11,
+        show_points=True
     )
 
     two_group_stat_bar_plot(

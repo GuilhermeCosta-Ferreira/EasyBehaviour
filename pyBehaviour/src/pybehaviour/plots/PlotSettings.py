@@ -20,3 +20,7 @@ class PlotSettings:
     gap: float = 0.0
     vertical_offset: float = 0.0
     show_legend: bool = True
+    scatter_size: int = 75
+    lightness_factor: float = 0.1
+    scatter_alpha: float = 0.8
+    show_points: bool = False

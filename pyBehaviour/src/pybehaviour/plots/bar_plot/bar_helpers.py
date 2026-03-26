@@ -53,18 +53,18 @@ def add_points(
         # 2. Computes the rects as fading gradients
         for idx, msr in enumerate(measurement):
             color = plt_settings.colors[multiplier]
-            soft_color = change_lighness(color, factor=0.10)
+            soft_color = change_lighness(color, factor=plt_settings.lightness_factor)
 
             jitter = np.random.uniform(-0.015, 0.015, size=len(msr))
 
             ax.scatter(
                 np.array([int(x[idx])] * len(msr)) + offset + jitter,
                 msr,
-                s=75,
+                s=plt_settings.scatter_size,
                 label=attribute,
                 color=soft_color,
                 zorder=5,
-                alpha=0.8,
+                alpha=plt_settings.scatter_alpha,
                 edgecolor="none"
             )
 

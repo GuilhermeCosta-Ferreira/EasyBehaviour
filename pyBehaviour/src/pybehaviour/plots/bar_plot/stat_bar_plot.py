@@ -40,7 +40,8 @@ def two_group_stat_bar_plot(
 
     # 5. Get sub-group bar positions and parameters
     ax = add_bars(mean_dict, ax, x, plt_settings)
-    ax = add_points(data_dict, ax, x, plt_settings)
+    if plt_settings.show_points:
+        ax = add_points(data_dict, ax, x, plt_settings)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_title(plt_settings.title)

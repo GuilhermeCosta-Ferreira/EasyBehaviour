@@ -3,6 +3,8 @@
 # ================================================================
 import os
 
+import pandas as pd
+
 from pathlib import Path
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -42,7 +44,7 @@ def multigroup_comparision(
         )
 
     # 2. Generate the plots
-    fig, ax = two_group_stat_bar_plot(
+    fig, ax, data_dict = two_group_stat_bar_plot(
         group_1_dict=control_group.mean_min_distance_per_mouse_per_tp,
         group_2_dict=study_group.mean_min_distance_per_mouse_per_tp,
         group_names=[control_group.name, study_group.name],
@@ -58,6 +60,17 @@ def multigroup_comparision(
         output_folder = output_folder / f"{control_group.group_num}_{study_group.group_num}"
         os.makedirs(output_folder, exist_ok=True)
         save_plot(fig, output_folder, save_settings)
+
+        control_df = pd.DataFrame(control_group.mean_min_distance_per_mouse_per_tp)
+        study_df = pd.DataFrame(study_group.mean_min_distance_per_mouse_per_tp)
+        data_df = pd.DataFrame(data_dict)
+
+        file_path = output_folder / f"{save_settings.name}_data.xlsx"
+        with pd.ExcelWriter(file_path, engine="openpyxl") as writer:
+            data_df.to_excel(writer, sheet_name="data", index=True)
+            control_df.to_excel(writer, sheet_name="control", index=True)
+            study_df.to_excel(writer, sheet_name="study", index=True)
+
 
     return fig, ax
 
@@ -95,7 +108,7 @@ def multigroup_chronic_comparision(
         )
 
     # 3. Generate the plot
-    fig, ax = two_group_stat_bar_plot(
+    fig, ax, data_dict = two_group_stat_bar_plot(
         group_1_dict=control_data,
         group_2_dict=study_data,
         group_names=[control_group.name, study_group.name],
@@ -111,5 +124,15 @@ def multigroup_chronic_comparision(
         output_folder = output_folder / f"{control_group.group_num}_{study_group.group_num}"
         os.makedirs(output_folder, exist_ok=True)
         save_plot(fig, output_folder, save_settings)
+
+        control_df = pd.DataFrame(control_data)
+        study_df = pd.DataFrame(study_data)
+        data_df = pd.DataFrame(data_dict)
+
+        file_path = output_folder / f"{save_settings.name}_data.xlsx"
+        with pd.ExcelWriter(file_path, engine="openpyxl") as writer:
+            data_df.to_excel(writer, sheet_name="data", index=True)
+            control_df.to_excel(writer, sheet_name="control", index=True)
+            study_df.to_excel(writer, sheet_name="study", index=True)
 
     return fig, ax

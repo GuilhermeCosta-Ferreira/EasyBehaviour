@@ -21,7 +21,7 @@ def two_group_stat_bar_plot(
     group_2_dict: dict[str, dict[str, list[float]]],
     group_names: list[str] | np.ndarray,
     plt_settings: PlotSettings = PlotSettings(),
-) -> tuple[Figure, Axes]:
+) -> tuple[Figure, Axes, dict]:
     # 1. Make sure both groups have the same keys, if not just print a warning
     assert_same_keys(group_1_dict, group_2_dict)
 
@@ -63,7 +63,7 @@ def two_group_stat_bar_plot(
     if plt_settings.show_legend:
         ax = nice_legend(ax, plt_settings.colors, group_names)
 
-    return fig, ax
+    return fig, ax, data_dict
 
 
 # ──────────────────────────────────────────────────────

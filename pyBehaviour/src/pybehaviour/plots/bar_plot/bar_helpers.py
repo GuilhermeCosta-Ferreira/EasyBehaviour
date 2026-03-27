@@ -3,7 +3,6 @@
 # ================================================================
 import numpy as np
 
-from itertools import islice
 from typing import cast
 from matplotlib.axes import Axes
 from scipy.stats import ttest_ind

@@ -27,6 +27,8 @@ CONTROL_GROUP_FOLDER: Path = BASE_FOLDER / "control"
 CONTROL_GROUP_NAME: str = "#46 Untreated Injury"
 CONTROL_GROUP_NUMBER: int = 46
 
+TO_KEEP_PATH: Path = ROOT / "data" / "mice_to_keep.json"
+
 OUTPUT_FOLDER: Path = ROOT / "out/reaching"
 
 
@@ -36,8 +38,8 @@ OUTPUT_FOLDER: Path = ROOT / "out/reaching"
 # ================================================================
 if __name__ == '__main__':
     # 1. Load the data
-    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER, csv_folder_name="processed")
-    control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME, CONTROL_GROUP_NUMBER)
+    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER, TO_KEEP_PATH)
+    control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME, CONTROL_GROUP_NUMBER, TO_KEEP_PATH)
 
     # 2. Plot the data
     multigroup_comparision(control_group, study_group, OUTPUT_FOLDER, is_save=True)

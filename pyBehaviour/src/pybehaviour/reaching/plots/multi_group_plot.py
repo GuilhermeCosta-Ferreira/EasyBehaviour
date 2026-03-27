@@ -86,7 +86,7 @@ def multigroup_chronic_comparision(
             fig_size=(4,7),
             show_rects=False,
             gap=0.05,
-            vertical_offset=10,
+            vertical_offset=20,
             show_legend=False,
             lightness_factor=0.11,
             show_points=True,

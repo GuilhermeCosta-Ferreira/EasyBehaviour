@@ -221,6 +221,7 @@ pyBehaviour/logs
 
 # For dataStorage
 data/*
+!data/**/*.json
 !data/reaching/
 data/reaching/**
 !data/reaching/**/

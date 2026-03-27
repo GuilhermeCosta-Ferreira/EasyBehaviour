@@ -5,7 +5,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from pybehaviour.plots.PlotSettings import PlotSettings
 
-from ...plots import two_group_bar_plot, two_group_stat_bar_plot
+from ...plots import two_group_stat_bar_plot
 from ..io import GroupScrap
 
 

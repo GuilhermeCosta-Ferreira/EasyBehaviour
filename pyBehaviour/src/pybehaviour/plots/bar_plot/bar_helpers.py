@@ -112,7 +112,6 @@ def add_errorbar(
     return ax
 
 def add_pvalue(
-    mean_dict: dict,
     data_dict: dict,
     ax: Axes,
     x: np.ndarray,

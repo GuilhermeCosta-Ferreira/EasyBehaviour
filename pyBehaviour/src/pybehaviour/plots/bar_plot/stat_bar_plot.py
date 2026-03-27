@@ -10,7 +10,6 @@ from matplotlib.figure import Figure
 from ..features import nice_legend
 from ..PlotSettings import PlotSettings
 from .bar_helpers import add_bars, add_points, add_errorbar, get_y_axis, add_pvalue, assert_same_keys
-from ...stats import p_to_stars
 
 
 
@@ -45,7 +44,7 @@ def two_group_stat_bar_plot(
     if plt_settings.show_errorbar:
         ax = add_errorbar(mean_dict, std_dict, ax, x, plt_settings)
     if plt_settings.show_pvalue:
-        ax = add_pvalue(mean_dict, data_dict, ax, x, plt_settings)
+        ax = add_pvalue(data_dict, ax, x, plt_settings)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_title(plt_settings.title)
@@ -92,55 +91,3 @@ def build_std_data_dict(data_dict: dict) -> dict:
         group_name: [float(np.std(values)) for values in sub_dict]
         for group_name, sub_dict in data_dict.items()
     }
-
-
-
-def add_significance_lines(
-    ax: Axes,
-    x: np.ndarray,
-    group_1_dict: dict[str, np.ndarray],
-    group_2_dict: dict[str, np.ndarray],
-    width: float,
-    gap: float,
-    alpha: float = 0.05,
-) -> None:
-    sub_groups = sorted(group_1_dict.keys() | group_2_dict.keys())
-    y_min, y_max = ax.get_ylim()
-    y_range = y_max - y_min
-
-    line_height = 0.03 * y_range
-    text_offset = 0.01 * y_range
-
-    for i, sub_group in enumerate(sub_groups):
-        data1 = np.asarray(group_1_dict.get(sub_group, []), dtype=float)
-        data2 = np.asarray(group_2_dict.get(sub_group, []), dtype=float)
-
-        data1 = data1[~np.isnan(data1)]
-        data2 = data2[~np.isnan(data2)]
-
-        #_, p = ttest_ind(data1, data2, equal_var=False)
-        p=0.00001
-
-        if p >= alpha:
-            continue
-
-        bar1_x = x[i]
-        bar2_x = x[i] + width + gap
-
-        top = max(data1, data2)
-        print(top)
-        y = top + 0.06 * y_range
-
-        ax.plot(
-            [bar1_x, bar1_x, bar2_x, bar2_x],
-            [y, y + line_height, y + line_height, y],
-            color="black",
-            linewidth=1.2,
-        )
-        ax.text(
-            (bar1_x + bar2_x) / 2,
-            float(y + line_height + text_offset),
-            p_to_stars(p),
-            ha="center",
-            va="bottom",
-        )

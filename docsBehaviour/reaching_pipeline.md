@@ -21,22 +21,24 @@ Here are described all steps needed for an effective and trouble free data acqui
 ---
 
 ## 3. Preprocessing
+1. First thing is to check if there any mice that need to be removed, if that is the case, update `data/mice_to_keep.json`
+
 > Do all these steps both for the study group and for the control group
 
-1. Before we get some cool plots we need to make sure we have all the **metadata** and that we remove all **noise**. This is where **EasyBehaviour** and **pyBehaviour** come to help.
-2. First let's download from the server the data we need.
+2. Before we get some cool plots we need to make sure we have all the **metadata** and that we remove all **noise**. This is where **EasyBehaviour** and **pyBehaviour** come to help.
+3. First let's download from the server the data we need.
     1. The `.csv` files should go `data/reaching/study/raw` 
     2. The `.mp4`/`.avi`/`.mov` unlabeled at `data/reaching/study/videos`
     3. The `.mp4`/`.avi`/`.mov` labeled at `data/reaching/study/videos_labeled`
-3. Now open another terminal window
-4. Activate a conda environment with *napari* installed
-5. Navigate back to **pyBehaviour**
-6. Run `scripts/reaching/napari_manual.py`, this will prompt *napari*, there pick one or two frames that have the paw in the closest position, and add a dot where you think the wrist is. Add more frame/points if you don't feel confident that is the closest point.
+4. Now open another terminal window
+5. Activate a conda environment with *napari* installed
+6. Navigate back to **pyBehaviour**
+7. Run `scripts/reaching/napari_manual.py`, this will prompt *napari*, there pick one or two frames that have the paw in the closest position, and add a dot where you think the wrist is. Add more frame/points if you don't feel confident that is the closest point.
 
 > Napari will open in the best frame according to DLC (this hopefully will reduce time needed)
 
-7. Close *napari* in the cross, this will save a csv file in `data/reaching/study/processed`.
-8. The next video will open automatically.
+8. Close *napari* in the cross, this will save a csv file in `data/reaching/study/processed`.
+9. The next video will open automatically.
 
 ---
 

@@ -124,18 +124,14 @@ def add_pvalue(
     second_key_values = list(data_dict.values())[1]
 
     # 1. Build the p-value list
-    p_list = []
     for tp_idx in range(len(first_key_values)):
         first = first_key_values[tp_idx]
         second = second_key_values[tp_idx]
 
         t_stat, p_value = ttest_ind(first, second, equal_var=False)
         p_value = cast(float, p_value)
-        p_list.append(p_to_stars(p_value))
 
-    # 2. Draw the lines
-    for tp_idx in range(len(first_key_values)):
-        if p_list[tp_idx] == 'ns':
+        if p_to_stars(p_value) == 'ns':
             continue
 
         # 1. Computes the offset for bar placing on the x axis
@@ -176,7 +172,7 @@ def add_pvalue(
         ax.text(
             (x_start + x_end) / 2,
             tallest + 7.0 + 2.0,
-            p_list[tp_idx],
+            p_to_stars(p_value),
             ha="center",
             fontsize=20,
             fontweight="bold",

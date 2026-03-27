@@ -1,8 +1,6 @@
 # ================================================================
 # 0. Section: IMPORTS
 # ================================================================
-import os
-
 from matplotlib import pyplot as plt
 
 from pathlib import Path
@@ -11,10 +9,6 @@ from pybehaviour.reaching import(
     scrap_folder,
     multigroup_comparision,
     multigroup_chronic_comparision
-)
-from pybehaviour.save import(
-    save_plot,
-    SaveSettings
 )
 
 
@@ -42,7 +36,7 @@ OUTPUT_FOLDER: Path = ROOT / "out/reaching"
 # ================================================================
 if __name__ == '__main__':
     # 1. Load the data
-    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER)
+    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER, csv_folder_name="processed")
     control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME, CONTROL_GROUP_NUMBER)
 
     # 2. Plot the data

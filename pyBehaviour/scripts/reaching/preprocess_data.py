@@ -22,6 +22,7 @@ BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
 
 GROUP_FOLDER: Path = BASE_FOLDER / "study"
 GROUP_NAME: str = "#71_MdD_MdV_regen"
+GROUP_NUMBER: int = 71
 PROCESSED_FOLDER: Path = GROUP_FOLDER / "processed"
 
 FILE_PATH: Path = GROUP_FOLDER / "file_list_label.xlsx"
@@ -56,7 +57,7 @@ def get_file_state(file, labels_df: pd.DataFrame) -> int | None:
 # ================================================================
 if __name__ == '__main__':
     video_labels_df = pd.read_excel(FILE_PATH)
-    study_group = scrap_folder(GROUP_FOLDER, GROUP_NAME, csv_folder_name="raw")
+    study_group = scrap_folder(GROUP_FOLDER, GROUP_NAME, GROUP_NUMBER, csv_folder_name="raw")
 
     for file in study_group.files:
         # 1. Extract the file's state label

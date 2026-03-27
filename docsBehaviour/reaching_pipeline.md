@@ -28,12 +28,15 @@ Here are described all steps needed for an effective and trouble free data acqui
     1. The `.csv` files should go `data/reaching/study/raw` 
     2. The `.mp4`/`.avi`/`.mov` unlabeled at `data/reaching/study/videos`
     3. The `.mp4`/`.avi`/`.mov` labeled at `data/reaching/study/videos_labeled`
-3. First let's generate the `file_list_label.xlsx` file. This will help you label every video into the different categories. To generate run `scripts/reaching/get_file_csv.py`
-4. Now sort by name and open all videos with **VLC**
-5. Watch and fill the excel. Use they key at `data/reaching/reaching_states.json`
-6. Because it takes time and to avoid repeating work upload the `file_list_label.xlsx` to the server under the respective mice group.
-7. Once is filled you can inspect the model performance by running: `scripts/reaching/analyze_file_` `labels.py`
-8. Now is time to preprocess what is needed and avoid what is not needed.
+3. Now open another terminal window
+4. Activate a conda environment with *napari* installed
+5. Navigate back to **pyBehaviour**
+6. Run `scripts/reaching/napari_manual.py`, this will prompt *napari*, there pick one or two frames that have the paw in the closest position, and add a dot where you think the wrist is. Add more frame/points if you don't feel confident that is the closest point.
+
+> Napari will open in the best frame according to DLC (this hopefully will reduce time needed)
+
+7. Close *napari* in the cross, this will save a csv file in `data/reaching/study/processed`.
+8. The next video will open automatically.
 
 ---
 

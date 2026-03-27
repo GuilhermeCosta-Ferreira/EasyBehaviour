@@ -17,6 +17,7 @@ class GroupScrap:
     files: np.ndarray
     dates: np.ndarray
     mice: np.ndarray
+    group_num: int
 
     @property
     def timepoints(self):

@@ -23,6 +23,7 @@ from .scrap_file import scrap_files
 def scrap_folder(
     folder_path: Path,
     group_name: str,
+    group_number: int,
     csv_folder_name: str = "raw"
 ) -> GroupScrap:
     # 1. Get all the usefull file data from the group folder
@@ -42,6 +43,7 @@ def scrap_folder(
         timepoint_dict=timepoint_dict,
         files=files,
         dates=dates_present,
-        mice=mice_present
+        mice=mice_present,
+        group_num=group_number
     )
     return data

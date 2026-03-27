@@ -1,11 +1,14 @@
 # ================================================================
 # 0. Section: IMPORTS
 # ================================================================
+import os
+
+from pathlib import Path
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from pybehaviour.plots.PlotSettings import PlotSettings
 
-from ...plots import two_group_stat_bar_plot
+from ...plots import two_group_stat_bar_plot, PlotSettings
+from ...save import save_plot, SaveSettings
 from ..io import GroupScrap
 
 
@@ -16,7 +19,10 @@ from ..io import GroupScrap
 def multigroup_comparision(
     control_group: GroupScrap,
     study_group: GroupScrap,
-    plt_settings: PlotSettings | None = None
+    output_folder: Path,
+    is_save: bool = False,
+    plt_settings: PlotSettings | None = None,
+    save_settings: SaveSettings | None = None,
 ) -> tuple[Figure, Axes]:
 
     # 1. Get the settings
@@ -43,12 +49,25 @@ def multigroup_comparision(
         plt_settings=plt_settings
     )
 
+    # 3. Get the save settings
+    if save_settings is None:
+        save_settings = SaveSettings(name="across_tp_analysis")
+
+    # 4. Save if needed
+    if is_save:
+        output_folder = output_folder / f"{control_group.group_num}_{study_group.group_num}"
+        os.makedirs(output_folder, exist_ok=True)
+        save_plot(fig, output_folder, save_settings)
+
     return fig, ax
 
 def multigroup_chronic_comparision(
     control_group: GroupScrap,
     study_group: GroupScrap,
-    plt_settings: PlotSettings | None = None
+    output_folder: Path,
+    is_save: bool = False,
+    plt_settings: PlotSettings | None = None,
+    save_settings: SaveSettings | None = None,
 ) -> tuple[Figure, Axes]:
     # 1. Get the chronic data
     control_data = {
@@ -82,5 +101,15 @@ def multigroup_chronic_comparision(
         group_names=[control_group.name, study_group.name],
         plt_settings=plt_settings
     )
+
+     # 3. Get the save settings
+    if save_settings is None:
+        save_settings = SaveSettings(name="chronic_analysis")
+
+     # 4. Save if needed
+    if is_save:
+        output_folder = output_folder / f"{control_group.group_num}_{study_group.group_num}"
+        os.makedirs(output_folder, exist_ok=True)
+        save_plot(fig, output_folder, save_settings)
 
     return fig, ax

@@ -232,3 +232,5 @@ data/handling/**
 !data/handling/**/
 !data/handling/**/*.json
 !data/handling/**/.gitkeep
+
+out/

@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from scipy.stats import ttest_ind
 
 from ..features import nice_legend
 from ..PlotSettings import PlotSettings
@@ -46,7 +45,7 @@ def two_group_stat_bar_plot(
     if plt_settings.show_errorbar:
         ax = add_errorbar(mean_dict, std_dict, ax, x, plt_settings)
     if plt_settings.show_pvalue:
-        ax = add_pvalue(data_dict, ax, x, plt_settings)
+        ax = add_pvalue(mean_dict, data_dict, ax, x, plt_settings)
 
     # 6. Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_title(plt_settings.title)

@@ -3,12 +3,16 @@
 # ================================================================
 import numpy as np
 
+from itertools import islice
+from typing import cast
 from matplotlib.axes import Axes
+from scipy.stats import ttest_ind
 
 from ..PlotSettings import PlotSettings
 from ..features import convert_rect_to_grad
 from ...logger import logger
 from ...styling import change_lighness
+from ...stats import p_to_stars
 
 
 
@@ -107,13 +111,79 @@ def add_errorbar(
 
     return ax
 
-def add_pvalue(data_dict: dict,
+def add_pvalue(
+    mean_dict: dict,
+    data_dict: dict,
     ax: Axes,
     x: np.ndarray,
     plt_settings: PlotSettings
     ) -> Axes:
 
-    pass
+    # 0. Extract the data as lists for better handling
+    first_key_values = list(data_dict.values())[0]
+    second_key_values = list(data_dict.values())[1]
+
+    # 1. Build the p-value list
+    p_list = []
+    for tp_idx in range(len(first_key_values)):
+        first = first_key_values[tp_idx]
+        second = second_key_values[tp_idx]
+
+        t_stat, p_value = ttest_ind(first, second, equal_var=False)
+        p_value = cast(float, p_value)
+        p_list.append(p_to_stars(p_value))
+
+    # 2. Draw the lines
+    for tp_idx in range(len(first_key_values)):
+        if p_list[tp_idx] == 'ns':
+            continue
+
+        # 1. Computes the offset for bar placing on the x axis
+        end_offset = (plt_settings.width + plt_settings.gap)
+        x_start = x[tp_idx]
+        x_end = x[tp_idx] + end_offset
+
+        # 2. Computes the rects as fading gradients
+        first_bar = np.mean(first_key_values[tp_idx]) + 5.0
+        second_bar = np.mean(second_key_values[tp_idx]) + 5.0
+
+        tallest = np.max([first_bar, second_bar])
+
+        ax.vlines(
+            x_start,
+            first_bar,
+            tallest + 7.0,
+            zorder=7,
+            linewidth=2,
+            color="black"
+        )
+        ax.vlines(
+            x_end,
+            second_bar,
+            tallest + 7.0,
+            zorder=7,
+            linewidth=2,
+            color="black"
+        )
+        ax.hlines(
+            tallest + 7.0,
+            x_start - 0.005,
+            x_end + 0.0035,
+            zorder=7,
+            linewidth=2,
+            color="black"
+        )
+        ax.text(
+            (x_start + x_end) / 2,
+            tallest + 7.0 + 2.0,
+            p_list[tp_idx],
+            ha="center",
+            fontsize=20,
+            fontweight="bold",
+        )
+
+
+    return ax
 
 
 # ================================================================

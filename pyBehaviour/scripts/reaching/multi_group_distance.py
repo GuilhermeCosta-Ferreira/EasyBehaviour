@@ -45,7 +45,8 @@ if __name__ == '__main__':
         show_legend=True,
         lightness_factor=0.11,
         show_points=True,
-        show_errorbar=False
+        show_errorbar=False,
+        show_pvalue=True,
     )
 
     pprint(control_group.mean_min_distance_per_mouse_per_tp)

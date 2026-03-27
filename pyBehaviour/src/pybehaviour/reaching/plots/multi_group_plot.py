@@ -33,7 +33,7 @@ def multigroup_comparision(
     fig, ax = two_group_bar_plot(
         group_1_dict=control_group.mean_min_distance_per_tp,
         group_2_dict=study_group.mean_min_distance_per_tp,
-        group_names=(control_group.name, study_group.name),
+        group_names=[control_group.name, study_group.name],
         plt_settings=plt_settings
     )
 
@@ -67,7 +67,7 @@ def multigroup_chronic_comparision(
     fig, ax = two_group_bar_plot(
         group_1_dict=control_data,
         group_2_dict=study_data,
-        group_names=(control_group.name, study_group.name),
+        group_names=[control_group.name, study_group.name],
         plt_settings=plt_settings
     )
 

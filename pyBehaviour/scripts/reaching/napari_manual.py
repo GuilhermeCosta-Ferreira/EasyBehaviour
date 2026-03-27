@@ -10,6 +10,8 @@ python scripts/reaching/napari_manual.py \
 # 0. Section: IMPORTS
 # ================================================================
 import napari
+import json
+import re
 
 import numpy as np
 import pandas as pd
@@ -28,8 +30,10 @@ COLORS: list = ["red", "blue", "yellow"]*100
 INPUT_FOLDER: Path = BASE_FOLDER / "study"
 OUT_FOLDER: Path = INPUT_FOLDER / "processed"
 
-CSV_ENDING: str = "DLC_resnet50_REACHING_MOUSEBOT_2Apr1shuffle1_500000"
+MOUSE_PATTERN: str = r"_([0-9]+[A-Z]?)_"
+MICE_TO_KEEP: Path = ROOT / "data" / "mice_to_keep.json"
 
+GROUP_NUMBER: int = 71
 
 
 # ================================================================
@@ -87,9 +91,6 @@ def build_csv(wrist_layer, ref_csv, out_csv):
     out.to_csv(out_csv)
     print(f"Saved manual DLC-style CSV to: {out_csv}")
 
-
-
-
 def add_wristrobot_distance(df: pd.DataFrame) -> tuple:
     wrist_x = df[('wrist', 'x')]
     wrist_y = df[('wrist', 'y')]
@@ -111,6 +112,14 @@ def get_mindist(df: pd.DataFrame) -> tuple:
 
     return (min_distance_idx, min_distance, distances), df
 
+def get_file_metadata(file: Path, pattern: str) -> str | None:
+    # 1. Define the pattern
+    pattern_re = re.compile(pattern)
+
+    # 2. Finds the pattern
+    match = pattern_re.search(file.name)
+    return match.group(0) if match else None
+
 
 
 # ================================================================
@@ -122,9 +131,24 @@ if __name__ == '__main__':
     videos = sorted([p for ext in ("*.avi", "*.mp4", "*.mov", "*.mkv") for p in video_folder.glob(ext)])
     csv_files = sorted([p for ext in ("*.csv",) for p in csv_folder.glob(ext)])
 
-
     for video_path in videos:
         csv_path = next((csv for csv in csv_files if video_path.stem in csv.stem), None)
+
+        mouse_id = get_file_metadata(video_path, MOUSE_PATTERN)
+        if mouse_id is None:
+            mouse_id = str(video_path.name).split("_")[0]
+        else:
+            mouse_id = mouse_id.replace("_", "")
+
+        # 2. Remove mice that are not to be included
+        with open(MICE_TO_KEEP, "r") as f:
+            mice_to_keep_all = json.load(f)
+        group_keep_info = next(item for item in mice_to_keep_all["to_keep"] if item["group_id"] == GROUP_NUMBER)
+        mice_to_remove = group_keep_info["remove"]
+
+        if mouse_id in mice_to_remove:
+            print(f"{video_path} was ignored since {mouse_id} is to be removed")
+            continue
 
         if csv_path is None:
             print(f"No CSV found for {video_path.name}")

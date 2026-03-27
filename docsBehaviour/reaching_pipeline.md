@@ -33,4 +33,9 @@ Here are described all steps needed for an effective and trouble free data acqui
 5. Watch and fill the excel. Use they key at `data/reaching/reaching_states.json`
 6. Because it takes time and to avoid repeating work upload the `file_list_label.xlsx` to the server under the respective mice group.
 7. Once is filled you can inspect the model performance by running: `scripts/reaching/analyze_file_` `labels.py`
-8. Know is time to preprocess what is needed and avoid what is not needed.
+8. Now is time to preprocess what is needed and avoid what is not needed.
+
+---
+
+## 4. Visualization
+1. To visualize the plots just run `scripts/reaching/multi_group_distance.py`

@@ -60,8 +60,8 @@ def add_points(
             jitter = np.random.uniform(-0.015, 0.015, size=len(msr))
 
             ax.scatter(
-                np.array([int(x[idx])] * len(msr)) + offset + jitter,
-                msr,
+                x=np.array([int(x[idx])] * len(msr)) + offset + jitter,
+                y=msr,
                 s=plt_settings.scatter_size,
                 label=attribute,
                 color=soft_color,
@@ -179,6 +179,7 @@ def add_pvalue(
 
 
     return ax
+
 
 
 # ================================================================

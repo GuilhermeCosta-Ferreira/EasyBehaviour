@@ -5,7 +5,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from pybehaviour.plots.PlotSettings import PlotSettings
 
-from ...plots import two_group_bar_plot
+from ...plots import two_group_bar_plot, two_group_stat_bar_plot
 from ..io import GroupScrap
 
 
@@ -15,24 +15,30 @@ from ..io import GroupScrap
 # ================================================================
 def multigroup_comparision(
     control_group: GroupScrap,
-    study_group: GroupScrap
+    study_group: GroupScrap,
+    plt_settings: PlotSettings | None = None
 ) -> tuple[Figure, Axes]:
 
     # 1. Get the settings
-    plt_settings = PlotSettings(
-        ylabel="Distance to pallet",
-        title="",
-        fig_size=(10,6),
-        show_rects=False,
-        vertical_offset=10,
-        gap=0.05,
-        show_legend=True,
-    )
+    if plt_settings is None:
+        plt_settings = PlotSettings(
+            ylabel="Distance to pallet",
+            title="",
+            fig_size=(10,6),
+            show_rects=False,
+            vertical_offset=25,
+            gap=0.05,
+            show_legend=True,
+            lightness_factor=0.11,
+            show_points=True,
+            show_errorbar=False,
+            show_pvalue=True,
+        )
 
     # 2. Generate the plots
-    fig, ax = two_group_bar_plot(
-        group_1_dict=control_group.mean_min_distance_per_tp,
-        group_2_dict=study_group.mean_min_distance_per_tp,
+    fig, ax = two_group_stat_bar_plot(
+        group_1_dict=control_group.mean_min_distance_per_mouse_per_tp,
+        group_2_dict=study_group.mean_min_distance_per_mouse_per_tp,
         group_names=[control_group.name, study_group.name],
         plt_settings=plt_settings
     )
@@ -41,30 +47,36 @@ def multigroup_comparision(
 
 def multigroup_chronic_comparision(
     control_group: GroupScrap,
-    study_group: GroupScrap
+    study_group: GroupScrap,
+    plt_settings: PlotSettings | None = None
 ) -> tuple[Figure, Axes]:
     # 1. Get the chronic data
     control_data = {
-        "Chronic": control_group.mean_min_distance_per_tp["post_injury_week_8"]
+        "Chronic": control_group.mean_min_distance_per_mouse_per_tp["post_injury_week_8"]
     }
 
     study_data = {
-        "Chronic": study_group.mean_min_distance_per_tp["post_injury_week_8"]
+        "Chronic": study_group.mean_min_distance_per_mouse_per_tp["post_injury_week_8"]
     }
 
     # 2. Plot settings
-    plt_settings = PlotSettings(
-        ylabel="Distance to pallet",
-        title="",
-        fig_size=(4,7),
-        show_rects=False,
-        gap=0.05,
-        vertical_offset=10,
-        show_legend=False
-    )
+    if plt_settings is None:
+        plt_settings = PlotSettings(
+            ylabel="Distance to pallet",
+            title="",
+            fig_size=(4,7),
+            show_rects=False,
+            gap=0.05,
+            vertical_offset=10,
+            show_legend=False,
+            lightness_factor=0.11,
+            show_points=True,
+            show_errorbar=False,
+            show_pvalue=True,
+        )
 
     # 3. Generate the plot
-    fig, ax = two_group_bar_plot(
+    fig, ax = two_group_stat_bar_plot(
         group_1_dict=control_data,
         group_2_dict=study_data,
         group_names=[control_group.name, study_group.name],

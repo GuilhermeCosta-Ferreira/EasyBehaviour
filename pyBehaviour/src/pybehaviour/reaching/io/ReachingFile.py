@@ -7,14 +7,14 @@ from typing import cast
 from pathlib import Path
 from functools import cached_property
 
-from .metadata import (
-    get_video_path,
+from ...io import (
+    DATE_PATTERN,
+    File,
     get_file_metadata,
-    MOUSE_PATTERN,
-    DATE_PATTERN
 )
+
 from .distance import get_mindist
-from .video import get_nr_fames, get_best_frame
+from .video import get_best_frame
 from .tracking import get_best_label
 
 
@@ -22,35 +22,17 @@ from .tracking import get_best_label
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-class ReachingFile:
+class ReachingFile(File):
     def __init__(self, path: Path, timepoint_dict: dict) -> None:
+        super().__init__(path)
+
         # 1. Metadata
-        self.path = path
-        self.mouse = get_file_metadata(path, MOUSE_PATTERN)
-        if self.mouse is None:
-            self.mouse = self.file_name.split("_")[0]
-        else:
-            self.mouse = self.mouse.replace("_", "")
         self.date = get_file_metadata(path, DATE_PATTERN)
         self.timepoint_dict = timepoint_dict
-
-        # 2. Data
-        self.dataframe: pd.DataFrame = pd.read_csv(self.path, header=[1, 2], index_col=0)
-
-        # 3. States
-        self.ignore = False
 
     # ================================================================
     # 2. Section: Video Related Properties
     # ================================================================
-    @property
-    def video_path(self) -> Path:
-        return get_video_path(self.path.parent, self.file_name)
-
-    @property
-    def nr_frames(self) -> int:
-        return get_nr_fames(self.video_path)
-
     @property
     def best_frame(self):
         return get_best_frame(self.video_path, self.min_distance_idx)
@@ -64,10 +46,6 @@ class ReachingFile:
     def timepoint(self) -> str:
         translation = [k for k, dates in self.timepoint_dict.items() if self.date in dates]
         return str(translation[0]) if translation else ""
-
-    @property
-    def file_name(self) -> str:
-        return self.path.stem.split("DLC")[0]
 
 
 

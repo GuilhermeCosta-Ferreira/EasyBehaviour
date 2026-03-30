@@ -5,33 +5,15 @@ import pandas as pd
 
 from pathlib import Path
 
-from ...metadata import (
-    get_file_metadata,
-    MOUSE_PATTERN
-)
+from ...io import File
 
 
 
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-class FileHandling:
+class FileHandling(File):
     def __init__(self, path: Path) -> None:
-        # 1. Metadata
-        self.path = path
-        self.mouse = get_file_metadata(path, MOUSE_PATTERN)
+        super().__init__(path)
 
-        # 2. Data
-        self.dataframe: pd.DataFrame = pd.read_csv(self.path, header=[1, 2], index_col=0)
-
-        # 3. States
-        self.ignore = False
-
-
-
-    # ================================================================
-    # 2. Section: Metadata Related Properties
-    # ================================================================
-    @property
-    def file_name(self) -> str:
-        return self.path.stem.split("DLC")[0]
+        self.timepoint = 0

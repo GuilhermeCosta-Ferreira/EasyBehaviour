@@ -12,7 +12,7 @@ from .io import (
     get_timepoint_dict,
     get_labels_path,
 )
-from .metadata import (
+from ...io import (
     get_unique_metadata,
     DATE_PATTERN,
     MOUSE_PATTERN

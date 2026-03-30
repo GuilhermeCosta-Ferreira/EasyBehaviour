@@ -4,6 +4,7 @@
 import numpy as np
 from pathlib import Path
 
+from typing import TypeVar
 from .metadata import (
     get_mice_to_remove,
     get_labels_path,
@@ -11,6 +12,9 @@ from .metadata import (
     MOUSE_PATTERN
 )
 from .scrap import scrap_files
+from .File import File
+
+T = TypeVar("T", bound=File)
 
 
 
@@ -24,7 +28,8 @@ class Group:
         group_name: str,
         group_number: int,
         mice_to_keep: Path,
-        csv_folder_name: str = "raw"
+        csv_folder_name: str = "raw",
+        file_class: type[T] = File
     ) -> None:
         # 1. Metadata
         self.folder_path = folder_path
@@ -34,6 +39,6 @@ class Group:
 
         # 2. Data
         csv_files = get_labels_path(folder_path / csv_folder_name)
-        self.files = scrap_files(csv_files, self.mice_to_remove)
+        self.files = scrap_files(csv_files, self.mice_to_remove, file_class)
         mice_present = get_unique_metadata(csv_files, MOUSE_PATTERN)
         self.mice = np.array([mouse for mouse in mice_present if mouse not in self.mice_to_remove])

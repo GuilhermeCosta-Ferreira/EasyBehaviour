@@ -4,6 +4,7 @@
 from pathlib import Path
 
 from ...io import Group
+from .HandlingFile import HandlingFile
 
 
 
@@ -19,4 +20,4 @@ class HandlingGroup(Group):
         mice_to_keep: Path,
         csv_folder_name: str = "raw"
     ) -> None:
-        super().__init__(folder_path, group_name, group_number, mice_to_keep, csv_folder_name)
+        super().__init__(folder_path, group_name, group_number, mice_to_keep, csv_folder_name, HandlingFile)

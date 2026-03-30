@@ -48,5 +48,4 @@ if __name__ == '__main__':
         TO_KEEP_PATH
     )
 
-    print(study_group.mice)
-    print(control_group.mice)
+    print(study_group.files[0].distance_df.head())

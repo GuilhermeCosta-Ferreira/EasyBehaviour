@@ -25,10 +25,13 @@ def get_mindist(df: pd.DataFrame) -> tuple[tuple, pd.DataFrame]:
 # 1.1 Subsection: Helper Functions
 # ──────────────────────────────────────────────────────
 def add_wristrobot_distance(df: pd.DataFrame) -> pd.DataFrame:
-    wrist_x = df[('wrist', 'x')]
-    wrist_y = df[('wrist', 'y')]
-    robot_x = df[('robot_arm', 'x')]
-    robot_y = df[('robot_arm', 'y')]
+    try:
+        wrist_x = df[('wrist', 'x')]
+        wrist_y = df[('wrist', 'y')]
+        robot_x = df[('robot_arm', 'x')]
+        robot_y = df[('robot_arm', 'y')]
+    except:
+        raise ValueError(f"{df.head()}")
 
     distances = np.sqrt((wrist_x - robot_x)**2 + (wrist_y - robot_y)**2)
     df[('distance', 'wrist_robot')] = distances

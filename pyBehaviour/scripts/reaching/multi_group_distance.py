@@ -38,7 +38,7 @@ OUTPUT_FOLDER: Path = ROOT / "out/reaching"
 # ================================================================
 if __name__ == '__main__':
     # 1. Load the data
-    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER, TO_KEEP_PATH)
+    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER, TO_KEEP_PATH, csv_folder_name="processed")
     control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME, CONTROL_GROUP_NUMBER, TO_KEEP_PATH)
 
     # 2. Plot the data

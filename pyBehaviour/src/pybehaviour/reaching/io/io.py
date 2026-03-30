@@ -30,6 +30,6 @@ def get_timepoint_dict(folder_path: Path) -> dict:
     with json_path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
-def get_labels_path(folder_path: Path) -> np.ndarray:
+def get_labels_path(folder_path: Path, ending: str = "*.csv") -> np.ndarray:
     # 1. Gets all the csv files in the group folder
-    return np.asarray(sorted(folder_path.glob("*.csv")))
+    return np.asarray(sorted(folder_path.glob(ending)))

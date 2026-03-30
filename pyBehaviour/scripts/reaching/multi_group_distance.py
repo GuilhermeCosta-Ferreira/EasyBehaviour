@@ -8,6 +8,7 @@ from pathlib import Path
 from pybehaviour.reaching import(
     scrap_folder,
     multigroup_comparision,
+    multigroup_chronic_comparision
 )
 
 
@@ -15,12 +16,20 @@ from pybehaviour.reaching import(
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-COMPARING_GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
-COMPARING_GROUP_NAME: str = "#71_MdD_MdV_regen"
+ROOT: Path = Path(__file__).resolve().parents[3]
+BASE_FOLDER: Path = ROOT / "data/reaching"
 
-CONTROL_GROUP_FOLDER: Path = DLC_FOLDER / "46_reaching"
-CONTROL_GROUP_NAME: str = "#46_untreated_injury"
+COMPARING_GROUP_FOLDER: Path = BASE_FOLDER / "study"
+COMPARING_GROUP_NAME: str = r"Treated$^{MdD-MdV}$"
+COMPARING_GROUP_NUMBER: int = 71
+
+CONTROL_GROUP_FOLDER: Path = BASE_FOLDER / "control"
+CONTROL_GROUP_NAME: str = "#46 Untreated Injury"
+CONTROL_GROUP_NUMBER: int = 46
+
+TO_KEEP_PATH: Path = ROOT / "data" / "mice_to_keep.json"
+
+OUTPUT_FOLDER: Path = ROOT / "out/reaching"
 
 
 
@@ -28,8 +37,11 @@ CONTROL_GROUP_NAME: str = "#46_untreated_injury"
 # 2. Section: MAIN
 # ================================================================
 if __name__ == '__main__':
-    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME)
-    control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME)
+    # 1. Load the data
+    study_group = scrap_folder(COMPARING_GROUP_FOLDER, COMPARING_GROUP_NAME, COMPARING_GROUP_NUMBER, TO_KEEP_PATH)
+    control_group = scrap_folder(CONTROL_GROUP_FOLDER, CONTROL_GROUP_NAME, CONTROL_GROUP_NUMBER, TO_KEEP_PATH)
 
-    multigroup_comparision(control_group, study_group)
+    # 2. Plot the data
+    multigroup_comparision(control_group, study_group, OUTPUT_FOLDER, is_save=True)
+    multigroup_chronic_comparision(control_group, study_group, OUTPUT_FOLDER, is_save=True)
     plt.show()

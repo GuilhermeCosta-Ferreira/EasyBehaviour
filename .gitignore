@@ -207,7 +207,6 @@ marimo/_lsp/
 __marimo__/
 
 verbose.txt
-data/
 .DS_Store/
 *.DS_Store
 
@@ -219,3 +218,20 @@ dataBehaviour/db/*.sqlite-shm
 
 # For pybehavior
 pyBehaviour/logs
+
+# For dataStorage
+data/*
+!data/**/*.json
+!data/reaching/
+data/reaching/**
+!data/reaching/**/
+!data/reaching/**/*.json
+!data/reaching/**/.gitkeep
+
+!data/handling/
+data/handling/**
+!data/handling/**/
+!data/handling/**/*.json
+!data/handling/**/.gitkeep
+
+out/

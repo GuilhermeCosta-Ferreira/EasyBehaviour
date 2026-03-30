@@ -1,8 +1,18 @@
 font.family: Diagramm
-font.weight: light
+font.weight: regular
 
+# Axes
 axes.titleweight: bold
-axes.labelweight: light
+axes.labelweight: regular
+axes.labelsize: 16
+
+xtick.labelsize: 14
+ytick.labelsize: 14
+axes.linewidth: 1.5
+xtick.major.width: 1.5
+ytick.major.width: 1.5
+xtick.minor.width: 1.5
+ytick.minor.width: 1.5
 
 # Removing axes
 axes.spines.right: False

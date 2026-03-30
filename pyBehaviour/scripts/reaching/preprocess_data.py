@@ -1,17 +1,16 @@
 # ================================================================
 # 0. Section: IMPORTS
 # ================================================================
-from matplotlib import pyplot as plt
+import shutil
+
+import pandas as pd
 
 from pathlib import Path
-from copy import deepcopy
 
-from pybehaviour.reaching import(
+from pybehaviour.reaching import (
     scrap_folder,
-    likelihood_filter,
-    low_pass_filter,
-    plot_best_frame,
-    plot_filter_displacement
+    review_preprocess,
+    generate_all_possible_preprocess
 )
 
 
@@ -19,111 +18,63 @@ from pybehaviour.reaching import(
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
+BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
+
+GROUP_FOLDER: Path = BASE_FOLDER / "study"
 GROUP_NAME: str = "#71_MdD_MdV_regen"
-VIDEO_NR: int = 400
+GROUP_NUMBER: int = 71
+PROCESSED_FOLDER: Path = GROUP_FOLDER / "processed"
+
+FILE_PATH: Path = GROUP_FOLDER / "file_list_label.xlsx"
+JSON_PATH: Path = BASE_FOLDER / "reaching_states.json"
 
 
 
 # ================================================================
-# 2. Section: MAIN
+# 2. Section: FUNCTIONS
+# ================================================================
+def move_good_quality(file, out_path: Path) -> Path:
+    csv_path = file.path
+
+    destination = out_path / csv_path.name
+    shutil.copy2(csv_path, destination)
+
+    return destination
+
+def get_file_state(file, labels_df: pd.DataFrame) -> int | None:
+    match = labels_df.loc[
+        labels_df["name"] == file.file_name, "state"
+    ]
+    if not match.empty:
+        return int(match.iloc[0])
+    else:
+        return None
+
+
+
+# ================================================================
+# 3. Section: MAIN
 # ================================================================
 if __name__ == '__main__':
-    study_group = scrap_folder(GROUP_FOLDER, GROUP_NAME)
+    video_labels_df = pd.read_excel(FILE_PATH)
+    study_group = scrap_folder(GROUP_FOLDER, GROUP_NAME, GROUP_NUMBER, csv_folder_name="raw")
 
-    target_file = deepcopy(study_group.files[VIDEO_NR])
+    for file in study_group.files:
+        # 1. Extract the file's state label
+        state = get_file_state(file, video_labels_df)
+        if state is None:
+            print(f"{file.file_name} not found in dataframe")
+            continue
 
-    print("Raw Signal")
-    print(target_file.video_path)
-    print(target_file.timepoint)
-    print(target_file.best_label)
-    print(target_file.min_distance)
+        # 2. If it is perfect video, it can get stored directly (no change needed)
+        if state == 0:
+            dest = move_good_quality(file, PROCESSED_FOLDER)
 
-    plot_best_frame(target_file)
+        # 3. If it did not reach, it will not get moved
+        elif state == 1:
+            continue
 
-    plt.figure()
-    plt.plot(target_file.wrist_df["x"].diff().to_numpy())
-    plt.show(block=True)
-
-
-    # ──────────────────────────────────────────────────────
-    # 2.1 Subsection: Low Pass Filter
-    # ──────────────────────────────────────────────────────
-    target_file.wrist_df = low_pass_filter(target_file)
-
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file)
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file, derivate=True)
-    plot_best_frame(target_file, "Low Pass Filtered Best Frame")
-
-    print("\nLow Pass Filter")
-    print(target_file.best_label)
-    print(target_file.min_distance)
-    plt.show()
-
-
-    # ──────────────────────────────────────────────────────
-    # 2.2 Subsection: Likelihood Filter
-    # ──────────────────────────────────────────────────────
-    target_file = deepcopy(study_group.files[VIDEO_NR])
-    target_file.wrist_df = likelihood_filter(target_file, 0.90, fill_nan=True)
-
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file)
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file, derivate=True)
-    plot_best_frame(target_file, "Likelihood Filtered Best Frame")
-
-    print("\nLikelihood Filter")
-    print(target_file.best_label)
-    print(target_file.min_distance)
-    plt.show()
-
-
-    # ──────────────────────────────────────────────────────
-    # 2.3 Subsection: LP + LH (Fill)
-    # ──────────────────────────────────────────────────────
-    target_file = deepcopy(study_group.files[VIDEO_NR])
-    target_file.wrist_df = low_pass_filter(target_file)
-    target_file.wrist_df = likelihood_filter(target_file, 0.90, fill_nan=True)
-
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file)
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file, derivate=True)
-    plot_best_frame(target_file, "LP + LH (Fill) Best Frame")
-
-    print("\nLP + LH (Fill) Filter")
-    print(target_file.best_label)
-    print(target_file.min_distance)
-    plt.show()
-
-
-    # ──────────────────────────────────────────────────────
-    # 2.4 Subsection: LP + LH (No Fill)
-    # ──────────────────────────────────────────────────────
-    target_file = deepcopy(study_group.files[VIDEO_NR])
-    target_file.wrist_df = low_pass_filter(target_file)
-    target_file.wrist_df = likelihood_filter(target_file, 0.90, fill_nan=False)
-
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file)
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file, derivate=True)
-    plot_best_frame(target_file, "LP + LH (No Fill) Best Frame")
-
-    print("\nLP + LH (No Fill) Filter")
-    print(target_file.best_label)
-    print(target_file.min_distance)
-    plt.show()
-
-
-    # ──────────────────────────────────────────────────────
-    # 2.5 Subsection: LH (Fill) + LP
-    # ──────────────────────────────────────────────────────
-    target_file = deepcopy(study_group.files[VIDEO_NR])
-    target_file.wrist_df = likelihood_filter(target_file, 0.90, fill_nan=True)
-    target_file.wrist_df = low_pass_filter(target_file)
-
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file)
-    plot_filter_displacement(study_group.files[VIDEO_NR], target_file, derivate=True)
-    plot_best_frame(target_file, "LH (Fill) + LP Best Frame")
-
-    print("\nLH (Fill) + LP Filter")
-    print(target_file.best_label)
-    print(target_file.min_distance)
-    plt.show()
+        # 4. Aply automation selection
+        elif state == 2:
+            possible_files = generate_all_possible_preprocess(file)
+            review_preprocess(possible_files, PROCESSED_FOLDER)

@@ -13,13 +13,13 @@ from ..io import File
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def low_pass_filter(data_file: File) -> pd.DataFrame:
+def low_pass_filter(data_file: File, cutoff: float = 7.0, fs: float = 60.0) -> pd.DataFrame:
     # 1. Extract the data
     wrist_df = data_file.wrist_df.copy()
 
     # 2. Apply the filter
-    x = apply_low_pass_filter(wrist_df["x"].to_numpy())
-    y = apply_low_pass_filter(wrist_df["y"].to_numpy())
+    x = apply_low_pass_filter(wrist_df["x"].to_numpy(), cutoff, fs)
+    y = apply_low_pass_filter(wrist_df["y"].to_numpy(), cutoff, fs)
 
     # 3. Add back into the wrist_df
     wrist_df["x"] = x
@@ -33,8 +33,8 @@ def low_pass_filter(data_file: File) -> pd.DataFrame:
 # ──────────────────────────────────────────────────────
 def apply_low_pass_filter(
     data: np.ndarray,
-    cutoff: float = 7.0,
-    fs: float = 60.0
+    cutoff: float,
+    fs: float
 ) -> np.ndarray:
     # 1. center the data
     data_mean = np.mean(data)

@@ -8,7 +8,7 @@ import numpy as np
 from pathlib import Path
 
 DATE_PATTERN: str = r"\d{4}-\d{1,2}-\d{1,2}"
-MOUSE_PATTERN: str = r"([0-9]+[A-Z])"
+MOUSE_PATTERN: str = r"_([0-9]+[A-Z]?)_"
 
 
 

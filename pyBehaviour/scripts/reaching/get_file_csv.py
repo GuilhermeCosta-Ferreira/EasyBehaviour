@@ -12,8 +12,8 @@ from pybehaviour.reaching.io import get_labels_path
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-DLC_FOLDER: Path = Path("../data/dlc")
-GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
+BASE_FOLDER: Path = Path(__file__).resolve().parents[3] / "data/reaching"
+GROUP_FOLDER: Path = BASE_FOLDER / "study"
 
 
 
@@ -22,7 +22,7 @@ GROUP_FOLDER: Path = DLC_FOLDER / "71_reaching"
 # ================================================================
 if __name__ == '__main__':
     # 1. Get the sorted csv files
-    csv_files = get_labels_path(GROUP_FOLDER / "raw_csv")
+    csv_files = get_labels_path(GROUP_FOLDER / "raw")
     csv_files = [file.name.split("DLC")[0] for file in csv_files]
 
     # 2. Generate the dataframe

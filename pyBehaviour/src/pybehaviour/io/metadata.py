@@ -2,6 +2,7 @@
 # 0. Section: IMPORTS
 # ================================================================
 import re
+import json
 
 import numpy as np
 
@@ -42,3 +43,13 @@ def get_video_path(folder_path: Path, file_name: str) -> Path:
     raise FileNotFoundError(
         f"No video file found for {file_name} with extensions .avi, .mp4, or .MOV"
     )
+
+def get_mice_to_remove(mice_to_keep: Path, group_number: int) -> list:
+    with open(mice_to_keep, "r") as f:
+        mice_to_keep_all = json.load(f)
+    group_keep_info = next(item for item in mice_to_keep_all["to_keep"] if item["group_id"] == group_number)
+    return group_keep_info["remove"]
+
+def get_labels_path(folder_path: Path, ending: str = "*.csv") -> np.ndarray:
+    # 1. Gets all the csv files in the group folder
+    return np.asarray(sorted(folder_path.glob(ending)))

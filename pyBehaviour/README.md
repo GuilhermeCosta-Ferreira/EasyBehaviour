@@ -1,6 +1,7 @@
 <div align="center">
     <img src="https://shields.io/badge/python-3.13-green?logo=python&style=flat" alt="Python">
     <img src="https://shields.io/badge/Package_Manager-poetry-green?logo=poetry&style=flat" alt="Poetry">
+    <img src="https://shields.io/badge/Pipelines-1/4-green?logo=n8n&style=flat" alt="1/4">
 </div>
 
 # pyBehaviour
@@ -21,20 +22,30 @@ Here the is described all steps needed for an effective and rouble free data acq
 3. Pick the DLC model and apply it to the videos. Because the videos are small and short this should run quite fast, no need for overnight runs.
 4. Upload back to the server the DLC results that should have been stored in the drive.
 
-## 3. Preprocessing
+### 3. Preprocessing
+1. First thing is to check if there any mice that need to be removed, if that is the case, update `data/mice_to_keep.json`
+
 > Do all these steps both for the study group and for the control group
 
-1. Before we get some cool plots we need to make sure we have all the **metadata** and that we remove all **noise**. This is where **EasyBehaviour** and **pyBehaviour** come to help.
-2. First let's download from the server the data we need.
+2. Before we get some cool plots we need to make sure we have all the **metadata** and that we remove all **noise**. This is where **EasyBehaviour** and **pyBehaviour** come to help.
+3. First let's download from the server the data we need.
     1. The `.csv` files should go `data/reaching/study/raw` 
     2. The `.mp4`/`.avi`/`.mov` unlabeled at `data/reaching/study/videos`
     3. The `.mp4`/`.avi`/`.mov` labeled at `data/reaching/study/videos_labeled`
-3. First let's generate the `file_list_label.xlsx` file. This will help you label every video into the different categories. To generate run `scripts/reaching/get_file_csv.py`
-4. Now sort by name and open all videos with **VLC**
-5. Watch and fill the excel. Use they key at `data/reaching/reaching_states.json`
-6. Because it takes time and to avoid repeating work upload the `file_list_label.xlsx` to the server under the respective mice group.
-7. Once is filled you can inspect the model performance by running: `scripts/reaching/analyze_file_` `labels.py`
-8. Know is time to preprocess what is needed and avoid what is not needed.
+4. Now open another terminal window
+5. Activate a conda environment with *napari* installed
+6. Navigate back to **pyBehaviour**
+7. Run `scripts/reaching/napari_manual.py`, this will prompt *napari*, there pick one or two frames that have the paw in the closest position, and add a dot where you think the wrist is. Add more frame/points if you don't feel confident that is the closest point.
+
+> Napari will open in the best frame according to DLC (this hopefully will reduce time needed)
+
+8. Close *napari* in the cross, this will save a csv file in `data/reaching/study/processed`.
+9. The next video will open automatically.
+
+---
+
+### 4. Visualization
+1. To visualize the plots just run `scripts/reaching/multi_group_distance.py`
 
 
 ## DLC Support

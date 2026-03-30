@@ -3,7 +3,7 @@
 # ================================================================
 import numpy as np
 
-from .File import File
+from .ReachingFile import ReachingFile
 
 
 
@@ -16,7 +16,7 @@ def scrap_files(files: np.ndarray, timepoint_dict: dict, mice_to_remove: list) -
     # 1. Loop over all files
     for file in files:
         # 1.1 Stores it in a list
-        file = File(
+        file = ReachingFile(
             path=file,
             timepoint_dict=timepoint_dict
         )

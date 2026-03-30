@@ -6,14 +6,14 @@ import pandas as pd
 
 from scipy.signal import butter, sosfiltfilt
 
-from ..io import File
+from ..io import ReachingFile
 
 
 
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def low_pass_filter(data_file: File, cutoff: float = 7.0, fs: float = 60.0) -> pd.DataFrame:
+def low_pass_filter(data_file: ReachingFile, cutoff: float = 7.0, fs: float = 60.0) -> pd.DataFrame:
     # 1. Extract the data
     wrist_df = data_file.wrist_df.copy()
 

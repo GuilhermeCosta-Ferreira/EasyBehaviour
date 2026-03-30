@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 from .interpolate import interpolate
-from ..io import File
+from ..io import ReachingFile
 from ...logger import logger
 
 NAN_RATIO_LIMIT: float = 25
@@ -15,7 +15,7 @@ NAN_RATIO_LIMIT: float = 25
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def likelihood_filter(data_file: File,
+def likelihood_filter(data_file: ReachingFile,
     threshold: float,
     ratio_limit: float = NAN_RATIO_LIMIT,
     fill_nan: bool = True

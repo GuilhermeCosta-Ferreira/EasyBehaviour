@@ -27,8 +27,8 @@ RAW_FOLDER: Path = GROUP_FOLDER / "raw"
 
 PATTERN: str = r'^(?P<group_number>\d+)_(?P<mouse_nr>[A-Z]\d+)_Kelloggs_(?P<timepoint>BL|1|4)_(?P<trial>[a-z]\d?)_selected(?P<model>DLC_.+)$'
 CONVERTION_RULES: list = [
-    ("foot_i", "left_foot"),
-    ("foot_ui", "right_foot"),
+    ("foot_i", "foot_left"),
+    ("foot_ui", "foot_right"),
     ("i_mid_1", "l_mid_1"),
     ("i_mid_2", "l_mid_2"),
     ("i_mid_3", "l_mid_3"),

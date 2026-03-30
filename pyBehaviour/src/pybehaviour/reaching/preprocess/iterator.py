@@ -3,7 +3,7 @@
 # ================================================================
 from copy import deepcopy
 
-from ..io import File
+from ..io import ReachingFile
 from .clean_filter import clean_filter
 from .low_filter import low_pass_filter
 from .remove_low_confidence import likelihood_filter
@@ -40,7 +40,7 @@ DEFAULT_PROCESSES: list[list[tuple]] = [
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def generate_all_possible_preprocess(data_file: File, processes_list: list[list[tuple]] = DEFAULT_PROCESSES) -> list:
+def generate_all_possible_preprocess(data_file: ReachingFile, processes_list: list[list[tuple]] = DEFAULT_PROCESSES) -> list:
     # 1. Create a file storage
     file_storage = []
 
@@ -65,7 +65,7 @@ def generate_all_possible_preprocess(data_file: File, processes_list: list[list[
 # ──────────────────────────────────────────────────────
 # 1.1 Subsection: Helper Functions
 # ──────────────────────────────────────────────────────
-def apply_preprocess(data_file: File, processes: list[tuple]) -> File:
+def apply_preprocess(data_file: ReachingFile, processes: list[tuple]) -> ReachingFile:
     # 1. Copy so we don't change the file on the go
     out_file = deepcopy(data_file)
 

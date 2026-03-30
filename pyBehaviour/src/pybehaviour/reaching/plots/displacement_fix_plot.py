@@ -9,7 +9,7 @@ from matplotlib.figure import Figure
 from matplotlib.axes import Axes
 
 from ...plots import plot_lines
-from ..io import File
+from ..io import ReachingFile
 
 
 
@@ -17,8 +17,8 @@ from ..io import File
 # 1. Section: Functions
 # ================================================================
 def plot_filter_displacement(
-    file_data: File,
-    proc_file: File,
+    file_data: ReachingFile,
+    proc_file: ReachingFile,
     derivate: bool = False
 ) -> tuple[Figure, Axes]:
     # 1. Import the clear data

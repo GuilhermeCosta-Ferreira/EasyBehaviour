@@ -9,14 +9,14 @@ from pathlib import Path
 from typing import cast
 
 from ..plots import plot_best_frame
-from ..io import File
+from ..io import ReachingFile
 
 
 
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def review_preprocess(files: list[File], output_path: Path):
+def review_preprocess(files: list[ReachingFile], output_path: Path):
     accepted_file = None
 
     for file in files:

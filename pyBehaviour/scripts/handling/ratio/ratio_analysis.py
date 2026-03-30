@@ -15,8 +15,10 @@ from pybehaviour.handling.ratio_analysis import (
 # ================================================================
 # 1. Section: INPUTS
 # ================================================================
-INPUT_FOLDER: Path = Path("../data/dlc")
-CONDITIONS: list = ["71_handling", "71_handling"]
+ROOT: Path = Path(__file__).resolve().parents[4]
+INPUT_FOLDER: Path = ROOT / "data" / "handling"
+
+CONDITIONS: list = ["control/raw", "study/raw"]
 THRESHOLD: float = 0.5
 
 SELECTED_PARAMS = [

@@ -22,7 +22,7 @@ from .tracking import get_best_label
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-class File:
+class ReachingFile:
     def __init__(self, path: Path, timepoint_dict: dict) -> None:
         # 1. Metadata
         self.path = path

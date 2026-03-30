@@ -7,14 +7,14 @@ from matplotlib.figure import Figure
 from matplotlib.axes import Axes
 
 from ...plots import plot_imshow_with_labels
-from ..io import File
+from ..io import ReachingFile
 
 
 
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-def plot_best_frame(data_file: File, title: str = "Best Frame") -> tuple[Figure, Axes] | None:
+def plot_best_frame(data_file: ReachingFile, title: str = "Best Frame") -> tuple[Figure, Axes] | None:
     if data_file.best_frame is not None:
         frame = data_file.best_frame
     else:

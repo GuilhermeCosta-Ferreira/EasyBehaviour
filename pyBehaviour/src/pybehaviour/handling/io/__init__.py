@@ -1,5 +1,7 @@
-from .FileHandling import FileHandling
+from .HandlingFile import HandlingFile
+from .HandlingGroup import HandlingGroup
 
 __all__ = [
-    "FileHandling"
+    "HandlingFile",
+    "HandlingGroup"
 ]

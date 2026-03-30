@@ -2,7 +2,7 @@
 # 0. Section: IMPORTS
 # ================================================================
 from pathlib import Path
-from pybehaviour.io import Group
+from pybehaviour.handling.io import HandlingGroup
 
 
 
@@ -35,15 +35,18 @@ OUTPUT_FOLDER: Path = ROOT / "out" / "handling"
 # 3. Section: MAIN
 # ================================================================
 if __name__ == '__main__':
-    study_group = Group(
+    study_group = HandlingGroup(
         COMPARING_GROUP_FOLDER,
         COMPARING_GROUP_NAME,
         COMPARING_GROUP_NUMBER,
         TO_KEEP_PATH
     )
-    control_group = Group(
+    control_group = HandlingGroup(
         CONTROL_GROUP_FOLDER,
         CONTROL_GROUP_NAME,
         CONTROL_GROUP_NUMBER,
         TO_KEEP_PATH
     )
+
+    print(study_group.mice)
+    print(control_group.mice)

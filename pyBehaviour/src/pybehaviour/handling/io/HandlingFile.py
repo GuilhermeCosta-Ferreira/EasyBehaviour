@@ -12,8 +12,6 @@ from ...io import File
 # ================================================================
 # 1. Section: Functions
 # ================================================================
-class FileHandling(File):
+class HandlingFile(File):
     def __init__(self, path: Path) -> None:
         super().__init__(path)
-
-        self.timepoint = 0

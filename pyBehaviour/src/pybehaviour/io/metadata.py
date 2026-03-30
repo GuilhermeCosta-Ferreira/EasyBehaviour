@@ -21,7 +21,7 @@ def get_unique_metadata(files: np.ndarray, pattern: str):
     pattern_re = re.compile(pattern)
 
     # 2. Iterates over the files and finds the uniques
-    uniques = sorted({m.group() for f in files if (m := pattern_re.search(f.name))})
+    uniques = sorted({m.group().replace("_", "") for f in files if (m := pattern_re.search(f.name))})
     return np.asarray(uniques)
 
 def get_file_metadata(file: Path, pattern: str) -> str | None:

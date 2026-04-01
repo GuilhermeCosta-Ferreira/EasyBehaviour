@@ -77,7 +77,7 @@ class GroupScrap:
     def mean_min_distance_per_mouse_per_tp(self) -> dict:
         return {
             tp: {
-                mouse: sum(values) / len(values)
+                mouse: np.nanmean(values)
                 for mouse, values in mouse_dict.items()
             }
             for tp, mouse_dict in self.min_distance_per_mouse_per_tp.items()

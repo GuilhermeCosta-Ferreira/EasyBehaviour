@@ -19,6 +19,7 @@ GROUP_NAME: str = r"Treated$^{MdD-MdV}$"
 GROUP_NUMBER: int = 71
 
 TO_KEEP_PATH: Path = ROOT / "data" / "mice_to_keep.json"
+MODEL: str = "DLC_resnet50_REACHING_MOUSEBOT_2Apr1shuffle1_500000"
 
 OUTPUT_FOLDER: Path = GROUP_FOLDER / "processed"
 
@@ -38,7 +39,6 @@ def detect_separator(line: str) -> str:
 if __name__ == '__main__':
     group = scrap_folder(GROUP_FOLDER, GROUP_NAME, GROUP_NUMBER, TO_KEEP_PATH)
 
-    model = "DLC_resnet50_REACHING_MOUSEBOT_2Apr1shuffle1_500000"
     for file in tqdm(group.files, unit='files', desc='Fixing'):
         output_file = OUTPUT_FOLDER / file.path.name
 
@@ -59,6 +59,6 @@ if __name__ == '__main__':
             else:
                 # File is missing the scorer row, add it
                 n_cols = len(first_line.split(sep))
-                new_first_line = sep.join(["scorer"] + [model] * (n_cols - 1)) + "\n"
+                new_first_line = sep.join(["scorer"] + [MODEL] * (n_cols - 1)) + "\n"
                 f.write(new_first_line)
                 f.writelines(lines)

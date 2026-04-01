@@ -195,7 +195,13 @@ def get_y_axis(
         ax.set_yticks([0,
             int(plt_settings.ylim[1])])
     else:
-        max_value = max(np.nanmax(arr) for arr in data_dict.values())
+        valid_maxes = [
+            np.nanmax(arr)
+            for arr in data_dict.values()
+            if len(arr) > 0 and not np.isnan(arr).all()
+        ]
+
+        max_value = max(valid_maxes) if valid_maxes else np.nan
         ymax = max_value + plt_settings.vertical_offset
         ax.set_ylim((0, int(ymax)))
         ax.set_yticks([0, int(ymax)])

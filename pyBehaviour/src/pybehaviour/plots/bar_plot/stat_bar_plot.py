@@ -82,12 +82,12 @@ def build_data_dict(
 
 def build_mean_data_dict(data_dict: dict) -> dict:
     return {
-        group_name: [float(np.mean(values)) for values in sub_dict]
+        group_name: [float(np.nanmean(values)) for values in sub_dict]
         for group_name, sub_dict in data_dict.items()
     }
 
 def build_std_data_dict(data_dict: dict) -> dict:
     return {
-        group_name: [float(np.std(values)) for values in sub_dict]
+        group_name: [float(np.nanstd(values)) for values in sub_dict]
         for group_name, sub_dict in data_dict.items()
     }

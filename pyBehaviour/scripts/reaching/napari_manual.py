@@ -131,11 +131,18 @@ if __name__ == '__main__':
     done_folder = INPUT_FOLDER / "processed"
 
     videos = sorted([p for ext in ("*.avi", "*.mp4", "*.mov", "*.mkv") for p in video_folder.glob(ext)])
-    done_files = sorted([p for ext in ("*.csv",) for p in done_folder.glob(ext)])
-    csv_files = sorted([p for ext in ("*.csv",) for p in csv_folder.glob(ext) if p not in done_files])
+    done_files = sorted([p.stem for ext in ("*.csv",) for p in done_folder.glob(ext)])
+    csv_files = sorted([p for ext in ("*.csv",) for p in csv_folder.glob(ext)])
 
     for video_path in videos:
         csv_path = next((csv for csv in csv_files if video_path.stem in csv.stem), None)
+        if csv_path is None:
+            print(f"No CSV found for {video_path.name}")
+            continue
+
+        if csv_path.stem in done_files:
+            print(f"File was already processed {video_path.name}")
+            continue
 
         mouse_id = get_file_metadata(video_path, MOUSE_PATTERN)
         if mouse_id is None:
@@ -152,10 +159,6 @@ if __name__ == '__main__':
         if mouse_id in mice_to_remove:
             print(f"{video_path} was ignored since {mouse_id} is to be removed")
             continue
-
-        if csv_path is None:
-            print(f"No CSV found for {video_path.name}")
-            csv_path = csv_files[0]
 
         viewer = napari.Viewer()
 

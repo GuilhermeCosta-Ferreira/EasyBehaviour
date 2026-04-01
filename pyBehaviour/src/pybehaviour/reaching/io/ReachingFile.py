@@ -2,6 +2,7 @@
 # 0. Section: IMPORTS
 # ================================================================
 import pandas as pd
+import numpy as np
 
 from typing import cast
 from pathlib import Path
@@ -55,7 +56,11 @@ class ReachingFile(File):
     @cached_property
     def _mindist_data(self) -> tuple:
         df = self.dataframe
-        distance_data, _ = get_mindist(df)
+        try:
+            distance_data, _ = get_mindist(df)
+        except:
+            print(f"Only Nans present at {self.path}")
+            distance_data = (np.nan, np.nan)
         return distance_data
 
     @property

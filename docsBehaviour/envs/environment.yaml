@@ -1,0 +1,13 @@
+name: napari-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - napari
+  - pyqt
+  - ffmpeg
+  - imageio
+  - imageio-ffmpeg
+  - napari-deeplabcut
+prefix: /Users/guilhermec.f/anaconda3/envs/napari-env

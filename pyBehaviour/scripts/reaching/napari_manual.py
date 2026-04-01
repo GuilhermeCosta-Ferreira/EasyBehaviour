@@ -24,16 +24,16 @@ from pathlib import Path
 # 1. Section: Functions
 # ================================================================
 ROOT: Path = Path(__file__).resolve().parents[3]
-BASE_FOLDER: Path = ROOT / "data/reaching"
+BASE_FOLDER: Path = ROOT / "data" / "reaching"
 
-COLORS: list = ["red", "blue", "yellow"]*100
-INPUT_FOLDER: Path = BASE_FOLDER / "study"
+COLORS: list = ["red", "blue", "yellow"] * 100
+INPUT_FOLDER: Path = BASE_FOLDER / "control"
 OUT_FOLDER: Path = INPUT_FOLDER / "processed"
 
 MOUSE_PATTERN: str = r"_([0-9]+[A-Z]?)_"
 MICE_TO_KEEP: Path = ROOT / "data" / "mice_to_keep.json"
 
-GROUP_NUMBER: int = 71
+GROUP_NUMBER: int = 46
 
 
 # ================================================================
@@ -128,8 +128,11 @@ def get_file_metadata(file: Path, pattern: str) -> str | None:
 if __name__ == '__main__':
     video_folder = INPUT_FOLDER / "videos"
     csv_folder = INPUT_FOLDER/ "raw"
+    done_folder = INPUT_FOLDER / "processed"
+
     videos = sorted([p for ext in ("*.avi", "*.mp4", "*.mov", "*.mkv") for p in video_folder.glob(ext)])
-    csv_files = sorted([p for ext in ("*.csv",) for p in csv_folder.glob(ext)])
+    done_files = sorted([p for ext in ("*.csv",) for p in done_folder.glob(ext)])
+    csv_files = sorted([p for ext in ("*.csv",) for p in csv_folder.glob(ext) if p not in done_files])
 
     for video_path in videos:
         csv_path = next((csv for csv in csv_files if video_path.stem in csv.stem), None)
